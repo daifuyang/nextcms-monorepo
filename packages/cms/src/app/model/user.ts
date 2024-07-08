@@ -39,7 +39,7 @@ export async function getUserList(current: number, pageSize: number, tx = prisma
 }
 
 // 获取当前用户信息
-export async function currentUser(accessToken: string) {
+export async function currentUser(accessToken: string, tx = prisma) {
   const key = `${userTokenKey}${accessToken}`;
   const cache = await redis.get(key);
   let usereToken: cmsUserToken | null = null;
@@ -48,7 +48,7 @@ export async function currentUser(accessToken: string) {
   }
   if (!usereToken) {
     // 验证token
-    usereToken = await prisma.cmsUserToken.findFirst({
+    usereToken = await tx.cmsUserToken.findFirst({
       where: {
         accessToken,
         expiryAt: {
@@ -65,14 +65,14 @@ export async function currentUser(accessToken: string) {
 }
 
 // 根据主键获取用户信息
-export async function getUserById(id: number) {
+export async function getUserById(id: number, tx = prisma) {
   const key = `${userIdKey}${id}`;
   const cacahe = await redis.get(key);
   let user: cmsUser | null = null;
   if (cacahe) {
     user = JSON.parse(cacahe);
   } else {
-    user = await prisma.cmsUser.findFirst({
+    user = await tx.cmsUser.findFirst({
       where: {
         id
       }
@@ -85,9 +85,10 @@ export async function getUserById(id: number) {
 }
 
 export async function createUser(
-  data: Prisma.XOR<Prisma.cmsUserCreateInput, Prisma.cmsUserUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.cmsUserCreateInput, Prisma.cmsUserUncheckedCreateInput>,
+  tx = prisma
 ) {
-  const user = await prisma.cmsUser.create({
+  const user = await tx.cmsUser.create({
     data,
   });
   await prisma.$disconnect();

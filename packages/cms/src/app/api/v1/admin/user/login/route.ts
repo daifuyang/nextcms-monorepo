@@ -1,14 +1,14 @@
+import type { NextRequest } from "next/server";
 import _ from "lodash";
 import jwt from "jsonwebtoken";
 import dayjs from "dayjs";
 import bcrypt from "bcrypt";
 import api from "@/app/lib/response";
 import prisma from "@/app/lib/prisma";
-import withErrorHandle from "@/app/lib/withErrorHandle";
 import { now } from "@/app/lib/date";
 
 // 登录api
-export const POST = withErrorHandle( async (request: Request) => {
+export async function POST(request: NextRequest) {
   const json = await request.json();
   const { account, password } = json;
   if (!_.trim(account)) {
@@ -51,8 +51,7 @@ export const POST = withErrorHandle( async (request: Request) => {
         accessToken,
         refreshToken,
         expiryAt,
-        createdAt: now(),
-
+        createdAt: now()
       }
     });
     if (!userToken) {
@@ -60,4 +59,4 @@ export const POST = withErrorHandle( async (request: Request) => {
     }
     return api.success("登录成功！", token);
   }
-})
+}
