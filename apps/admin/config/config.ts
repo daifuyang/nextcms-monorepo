@@ -119,6 +119,7 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/access
    */
   access: {},
+  styles: [`https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900`],
   /**
    * @name <head> 中额外的 script
    * @description 配置 <head> 中额外的 script

@@ -1,12 +1,21 @@
 {
-  "name": "nextcms-monorepo",
+  "name": "nextcms",
+  "private": true,
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "基于nextcms的通用管理系统",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cms:dev":"pnpm run -C apps/cms dev",
+    "admin:dev":"pnpm run -C apps/admin dev"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["nextjs","antd","antd pro","nextcms"],
+  "author": "nextcms",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "packageManager": "pnpm@9.5.0",
   "license": "MIT"
 }

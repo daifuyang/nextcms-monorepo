@@ -1,0 +1,12 @@
+{
+  "name": "@nextcms/components",
+  "version": "0.0.1",
+  "description": "全局组件库",
+  "main": "index.js",
+  "scripts": {
+    "next:dev": "cd packages/cms && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
