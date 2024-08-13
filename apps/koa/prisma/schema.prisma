@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户表
+
+model cmsUser {
+  id        Int     @id @default(autoincrement())
+  loginName String? @unique @map("login_name") // 用户名可选，因为可能使用手机号或邮箱作为主要登录方式
+  email     String? @unique // 邮箱可选，因为可能使用手机号作为主要登录方式
+  phone     String? @unique // 手机号可选，可以支持手机号登录
+  password  String? // 如果用户使用第三方登录，密码可以为空
+  nickname  String? // 用户的昵称
+  realName  String? @map("realname") // 用户的真实姓名
+  gender    Int     @default(0) @db.TinyInt // 用户性别，0 表示未知，1 表示男，2 表示女
+  birthday  BigInt // 用户的生日
+  userType  Int     @default(0) @map("user_type") @db.TinyInt // 用户类型, 0 未激活，1 管理员，2 普通用户
+  name      String? // 用户名
+  avatar    String? // 头像
+  loginIp   String? @map("login_ip") // 最后登录IP
+  loginTime BigInt? @map("login_time") // 最后登录时间
+  status    Int     @default(1) @db.TinyInt // 用户状态，0 表示正常，1 表示禁用
+  createdAt BigInt  @map("create_time") // 使用 UNIX 时间戳（毫秒）
+  updatedAt BigInt  @map("update_time") // 更新时间，使用 bigint 类型
+
+  @@map("cms_user")
+}
