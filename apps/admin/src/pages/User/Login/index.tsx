@@ -1,8 +1,12 @@
+import { login } from '@/services/ant-design-pro/api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { history ,useIntl, useModel } from '@umijs/max';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import { createStyles } from 'antd-style';
+import { useState } from 'react';
+import { flushSync } from 'react-dom';
 
-const useStyle = createStyles(({ css }: any) => {
+const useStyles = createStyles(({ css }) => {
   return {
     root: {
       display: 'flex',
@@ -50,27 +54,27 @@ const useStyle = createStyles(({ css }: any) => {
       marginTop: '40px',
     },
     loginFormItem: css`
-    background-color: rgba(231, 241, 253, 0.4);
-    &.ant-input-affix-wrapper > input.ant-input {
-      &::placeholder {
+      background-color: rgba(231, 241, 253, 0.4);
+      &.ant-input-affix-wrapper > input.ant-input {
+        &::placeholder {
+          font-size: 20px;
+          color: rgba(4, 19, 74, 0.4);
+          font-family: 'Noto Sans SC';
+          font-weight: 400;
+        }
+        padding: 6px 8px;
         font-size: 20px;
         color: rgba(4, 19, 74, 0.4);
         font-family: 'Noto Sans SC';
         font-weight: 400;
       }
-      padding: 6px 8px;
-      font-size: 20px;
-      color: rgba(4, 19, 74, 0.4);
-      font-family: 'Noto Sans SC';
-      font-weight: 400;
-    }
-  `,
+    `,
     loginItemIcon: {
       fontSize: '24px',
       color: 'rgba(28, 53, 145, 0.6)',
     },
     loginFormChexkBox: css`
-      & .ant-checkbox+span {
+      & .ant-checkbox + span {
         color: rgba(4, 19, 74, 0.4);
         font-size: 20px;
         font-weight: 400;
@@ -82,12 +86,57 @@ const useStyle = createStyles(({ css }: any) => {
         padding: 24px 15px;
         font-size: 20px;
       }
-    `
+    `,
   };
 });
 
 export default function Login() {
-  const { styles } = useStyle();
+
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [type] = useState<string>('account');
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { styles } = useStyles();
+  const intl = useIntl();
+
+  const fetchUserInfo = async () => {
+    const userInfo = await initialState?.fetchUserInfo?.();
+    if (userInfo) {
+      flushSync(() => {
+        setInitialState((s) => ({
+          ...s,
+          currentUser: userInfo,
+        }));
+      });
+    }
+  };
+
+  const handleSubmit = async (values: API.LoginParams) => {
+    try {
+      // 登录
+      const msg = await login({ ...values, type });
+      if (msg.status === 'ok') {
+        const defaultLoginSuccessMessage = intl.formatMessage({
+          id: 'pages.login.success',
+          defaultMessage: '登录成功！',
+        });
+        message.success(defaultLoginSuccessMessage);
+        await fetchUserInfo();
+        const urlParams = new URL(window.location.href).searchParams;
+        history.push(urlParams.get('redirect') || '/');
+        return;
+      }
+      console.log(msg);
+      // 如果失败去设置用户错误信息
+      setUserLoginState(msg);
+    } catch (error) {
+      const defaultLoginFailureMessage = intl.formatMessage({
+        id: 'pages.login.failure',
+        defaultMessage: '登录失败，请重试！',
+      });
+      console.log(error);
+      message.error(defaultLoginFailureMessage);
+    }
+  };
 
   return (
     <div className={styles.root}>
@@ -97,8 +146,14 @@ export default function Login() {
           <h1 className={styles.loginTitle}>欢迎登录系统</h1>
           <p className={styles.loginSubTitle}> WELCOME!</p>
 
-          <Form className={styles.loginForm} name="basic">
-            <Form.Item name={'account'}>
+          <Form
+            onFinish={async (values) => {
+              await handleSubmit(values);
+            }}
+            className={styles.loginForm}
+            name="basic"
+          >
+            <Form.Item name="username">
               <Input
                 className={styles.loginFormItem}
                 variant="filled"
@@ -106,7 +161,7 @@ export default function Login() {
                 prefix={<UserOutlined className={styles.loginItemIcon} />}
               />
             </Form.Item>
-            <Form.Item name={'password'}>
+            <Form.Item name="password">
               <Input.Password
                 className={styles.loginFormItem}
                 variant="filled"
@@ -118,7 +173,9 @@ export default function Login() {
               <Checkbox className={styles.loginFormChexkBox}>记住密码</Checkbox>
             </Form.Item>
             <Form.Item>
-              <Button className={styles.loginFormBtn} type="primary" block>立即登录</Button>
+              <Button className={styles.loginFormBtn} type="primary" htmlType='submit' block>
+                立即登录
+              </Button>
             </Form.Item>
           </Form>
         </div>

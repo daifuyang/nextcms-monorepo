@@ -8,10 +8,15 @@
     "packages/*"
   ],
   "scripts": {
-    "cms:dev":"pnpm run -C apps/cms dev",
-    "admin:dev":"pnpm run -C apps/admin dev"
+    "cms:dev": "pnpm run -C apps/cms dev",
+    "admin:dev": "pnpm run -C apps/admin dev"
   },
-  "keywords": ["nextjs","antd","antd pro","nextcms"],
+  "keywords": [
+    "nextjs",
+    "antd",
+    "antd pro",
+    "nextcms"
+  ],
   "author": "nextcms",
   "engines": {
     "node": ">=18.18.0"
