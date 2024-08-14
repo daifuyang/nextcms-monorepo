@@ -1,6 +1,7 @@
 import Router from "koa-router";
 import adminRouter from "./admin";
-import prisma from "@/lib/prisma";
+import { Login } from "@/controller/login";
+import { currentUser } from "@/controller/user";
 
 export const router = new Router();
 router.get("/", (ctx, next) => {
@@ -19,6 +20,12 @@ v1.get("/", (ctx, next) => {
     data: {}
   };
 });
+
+// 用户登录
+v1.post("/login", Login);
+
+// 用户鉴权
+v1.get("/currentUser", currentUser);
 
 v1.use(adminRouter.routes());
 router.use(v1.routes());

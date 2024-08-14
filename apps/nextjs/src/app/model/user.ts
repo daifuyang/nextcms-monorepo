@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import redis from "@/app/lib/redis";
 import prisma from "@/app/lib/prisma";
 import type { cmsUser, cmsUserToken, Prisma } from "@prisma/client";
+import { serializeData } from '@/lib/util';
 
 const userIdKey = `${process.env.APP_NAME}:user:id:`;
 const userTokenKey = `${process.env.APP_NAME}:user:token:`;
@@ -78,7 +79,7 @@ export async function getUserById(id: number, tx = prisma) {
       }
     });
     if (user) {
-      redis.set(key, JSON.stringify(user));
+      redis.set(key, serializeData(user));
     }
   }
   return user;

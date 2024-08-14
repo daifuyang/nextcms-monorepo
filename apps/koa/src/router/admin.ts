@@ -1,12 +1,9 @@
 import Router from "koa-router";
+import { auth } from "@/middlewares/auth";
+import { home } from "@/controller/admin";
 
 const adminRouter = new Router({ prefix: "/admin" });
-adminRouter.get("/", (ctx, next) => {
-  ctx.body = {
-    msg: "admin",
-    code: 1,
-    data: {}
-  };
-});
+adminRouter.use(auth);
+adminRouter.get("/", home);
 
 export default adminRouter;
