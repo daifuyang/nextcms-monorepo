@@ -31,3 +31,5 @@ functions/*
 screenshot
 .firebase
 .eslintcache
+
+/install
