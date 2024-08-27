@@ -11,8 +11,49 @@ const options = {
       description: "API documentation for NextCMS project"
     },
     components: {
-      schemas: {}
+      schemas: {
+        success: {
+          type: "object",
+          required: ["code", "msg"],
+          properties: {
+            code: {
+              type: "integer",
+              description: "Response code",
+              example: 1
+            },
+            msg: {
+              type: "string",
+              description: "Response message"
+            },
+            data: {
+              oneOf: [
+                {
+                  type: "object",
+                  description: "Response data",
+                  additionalProperties: true
+                },
+                {
+                  type: "array",
+                  items: {
+                    type: "object"
+                  },
+                  description: "Response data"
+                },
+                { type: "string" },
+                { type: "number" },
+                { type: "boolean" }
+              ]
+            }
+          }
+        }
+      }
     },
+    tags: [
+      {
+        name: "users",
+        description: "用户相关"
+      }
+    ],
     servers: [
       {
         url: "/",
