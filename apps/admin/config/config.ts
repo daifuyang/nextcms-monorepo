@@ -1,6 +1,6 @@
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
-import { join } from 'path';
+import path from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
@@ -140,9 +140,17 @@ export default defineConfig({
       requestLibPath: "import { request } from '@umijs/max'",
       // 或者使用在线的版本
       // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: "http://localhost:3000/swagger.json",
+      schemaPath: path.join(__dirname, 'oneapi.json'),
       mock: false,
     },
+    /* {
+      requestLibPath: "import { request } from '@umijs/max'",
+      // 或者使用在线的版本import { path } from 'path';
+
+      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
+      schemaPath: "http://localhost:3000/swagger.json",
+      mock: false,
+    }, */
    
   ],
   mfsu: {

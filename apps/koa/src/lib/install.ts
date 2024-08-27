@@ -5,7 +5,8 @@ import prisma from "@/lib/prisma";
 import { now } from "./date";
 
 export const install = async () => {
-  const lockFile = path.resolve(process.cwd(), "install/install.lock");
+  const lockDir = path.resolve(process.cwd(), "install");
+  const lockFile = path.resolve(lockDir, "install.lock");
   if (fs.existsSync(lockFile)) {
     console.log("已经安装过");
     return;
@@ -18,8 +19,7 @@ export const install = async () => {
     }
   });
   if (!existUser) {
-
-    const password = bcrypt.hashSync('123456', 10)
+    const password = bcrypt.hashSync("123456", 10);
 
     const user = await prisma.cmsUser.create({
       data: {
@@ -37,5 +37,10 @@ export const install = async () => {
   }
 
   // 创建安装锁
+
+  if (!fs.existsSync(lockDir)) {
+    fs.mkdirSync(lockDir);
+  }
+
   fs.writeFileSync(lockFile, "");
 };

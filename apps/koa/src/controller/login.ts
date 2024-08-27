@@ -39,7 +39,7 @@ const accountEnum = {
 
 /**
  * @swagger
- * /login:
+ * /api/v1/login:
  *   post:
  *     summary: 用户登录
  *     description: 用户可以通过邮箱、手机号或账号进行登录，支持密码登录和短信验证码登录。

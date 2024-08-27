@@ -1,4 +1,4 @@
-import { login } from '@/services/ant-design-pro/api';
+import { login } from '@/services/ant-design-pro/user';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { history ,useIntl, useModel } from '@umijs/max';
 import { Button, Checkbox, Form, Input, message } from 'antd';
@@ -113,8 +113,8 @@ export default function Login() {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      const res = await login({ ...values, type });
+      if (res.code === 1) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -125,9 +125,9 @@ export default function Login() {
         history.push(urlParams.get('redirect') || '/');
         return;
       }
-      console.log(msg);
+      console.log(res);
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState(res);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
@@ -153,7 +153,7 @@ export default function Login() {
             className={styles.loginForm}
             name="basic"
           >
-            <Form.Item name="username">
+            <Form.Item name="account">
               <Input
                 className={styles.loginFormItem}
                 variant="filled"

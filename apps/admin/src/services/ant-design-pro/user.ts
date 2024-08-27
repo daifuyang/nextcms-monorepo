@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** 用户登录 用户可以通过邮箱、手机号或账号进行登录，支持密码登录和短信验证码登录。 POST /login */
+/** 用户登录 用户可以通过邮箱、手机号或账号进行登录，支持密码登录和短信验证码登录。 POST /api/v1/login */
 export async function login(
   body: {
     /** 用户的账号，可以是邮箱、手机号或用户名 */
@@ -25,7 +25,7 @@ export async function login(
       refreshToken?: string;
       reExpiresAt?: number;
     };
-  }>('/login', {
+  }>('/api/v1/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
