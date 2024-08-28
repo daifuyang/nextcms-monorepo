@@ -1,0 +1,53 @@
+paths:
+  /api/v1/currentUser:
+    get:
+      summary: 获取当前用户信息
+      description: 根据提供的 JWT 令牌获取当前用户信息。
+      operationId: currentUser
+      security:
+        - bearerAuth: []
+      tags:
+        - users
+      responses:
+        "200":
+          description: 成功获取用户信息
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: 未授权或身份已过期
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnAuthorized"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 用户的唯一标识符
+        username:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          description: 用户的电子邮件地址
+        # 其他用户属性
+      required:
+        - id
+        - username
+        - email
+
+    UserResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 返回的消息
+          example: 获取成功！
+        data:
+          $ref: "#/components/schemas/User"

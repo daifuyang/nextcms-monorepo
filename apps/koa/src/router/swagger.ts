@@ -12,7 +12,7 @@ const options = {
     },
     components: {
       schemas: {
-        success: {
+        Success: {
           type: "object",
           required: ["code", "msg"],
           properties: {
@@ -45,15 +45,46 @@ const options = {
               ]
             }
           }
-        }
+        },
+        UnAuthorized: {
+          type: "object",
+          required: ["msg"],
+          properties: {
+            msg: {
+              type: "string",
+              description: "Response message",
+              example: "用户身份已过期"
+            }
+          }
+        },
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',  // 可选
+          },
+        },
+      },
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',  // 可选
+        },
       }
     },
+    security: [
+      {
+        bearerAuth: [],  // 全局应用
+      },
+    ],
     tags: [
       {
         name: "users",
         description: "用户相关"
       }
     ],
+    
     servers: [
       {
         url: "/",
@@ -61,7 +92,7 @@ const options = {
       }
     ]
   },
-  apis: ["./src/controller/*.ts"] // 这里指定包含Swagger注释的文件路径
+  apis: ["**/*.yaml"] // 这里指定包含Swagger注释的文件路径
 };
 
 const swaggerSpec = swaggerJSDoc(options);
