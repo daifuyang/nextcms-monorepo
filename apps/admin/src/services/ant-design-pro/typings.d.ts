@@ -4,25 +4,71 @@ declare namespace API {
     account: string;
     /** 用户的登录密码，使用密码登录时必须提供 */
     password: string;
-    /** 登录类型，可以是 'email'、'phone' 或 'account' */
-    loginType?: 'email' | 'phone' | 'account';
+    loginType?: LoginType;
     /** 手机登录类型，当使用手机号登录时可以选择 'sms' 短信验证码登录 */
     phoneType?: 'sms' | 'password';
   };
 
-  type loginResponse =
-    // #/components/schemas/success
-    success & {
-      /** 成功信息 */
-      msg: string;
-      data: { accessToken: string; expiresAt: number; refreshToken: string; reExpiresAt: number };
-    };
+  type LoginType = 'email' | 'phone' | 'account';
 
-  type success = {
+  type Response = {
     /** Response code */
     code: number;
     /** Response message */
     msg: string;
     data?: Record<string, any> | Record<string, any>[] | string | number | boolean;
+  };
+
+  type securitySchemes = Record<string, any>;
+
+  type TokenData = {
+    /** JWT 访问令牌 */
+    accessToken: string;
+    /** 访问令牌过期时间 */
+    expiresAt: number;
+    /** 刷新令牌 */
+    refreshToken: string;
+    /** 刷新令牌过期时间 */
+    reExpiresAt: number;
+  };
+
+  type UnAuthorized = {
+    /** Response message */
+    msg: string;
+  };
+
+  type User = {
+    /** 用户ID */
+    id: number;
+    /** 登录名 */
+    loginName: string;
+    /** 邮箱地址，可以为空 */
+    email?: string;
+    /** 手机号，可以为空 */
+    phone?: string;
+    /** 昵称 */
+    nickname?: string;
+    /** 真实姓名，可以为空 */
+    realName?: string;
+    /** 性别 (0: 未知, 1: 男, 2: 女) */
+    gender: number;
+    /** 生日，可以为空 */
+    birthday?: string;
+    /** 用户类型 */
+    userType: number;
+    /** 名字，可以为空 */
+    name?: string;
+    /** 头像URL，可以为空 */
+    avatar?: string;
+    /** 最后登录IP，可以为空 */
+    loginIp?: string;
+    /** 最后登录时间，可以为空 */
+    loginTime?: string;
+    /** 用户状态 */
+    status: number;
+    /** 创建时间 */
+    createdAt: string;
+    /** 更新时间 */
+    updatedAt: string;
   };
 }

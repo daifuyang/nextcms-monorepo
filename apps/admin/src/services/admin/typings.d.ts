@@ -1,4 +1,4 @@
-declare namespace API {
+/* declare namespace API {
   // 定义登录参数
   type LoginParams = {
     account: string;
@@ -14,3 +14,4 @@ declare namespace API {
     data: T;
   };
 }
+ */

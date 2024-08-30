@@ -12,7 +12,7 @@ const options = {
     },
     components: {
       schemas: {
-        Success: {
+        Response: {
           type: "object",
           required: ["code", "msg"],
           properties: {

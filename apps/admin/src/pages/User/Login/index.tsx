@@ -1,7 +1,7 @@
-import { login } from '@/services/ant-design-pro/user';
+import { login } from '@/services/ant-design-pro/users';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { history ,useIntl, useModel } from '@umijs/max';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { history, useIntl, useModel } from '@umijs/max';
+import { Alert, Button, Checkbox, Form, Input, message } from 'antd';
 import { createStyles } from 'antd-style';
 import { useState } from 'react';
 import { flushSync } from 'react-dom';
@@ -90,10 +90,24 @@ const useStyles = createStyles(({ css }) => {
   };
 });
 
-export default function Login() {
+const LoginMessage: React.FC<{
+  content: string;
+}> = ({ content }) => {
+  return (
+    <Alert
+      style={{
+        marginBottom: 24,
+      }}
+      message={content}
+      type="error"
+      showIcon
+    />
+  );
+};
 
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type] = useState<string>('account');
+export default function Login() {
+  const [userLoginState, setUserLoginState] = useState<API.Response>();
+  const [type] = useState<API.LoginType>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
   const intl = useIntl();
@@ -110,11 +124,12 @@ export default function Login() {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: API.LoginReq) => {
     try {
       // 登录
-      const res = await login({ ...values, type });
+      const res = await login({ ...values, loginType: type });
       if (res.code === 1) {
+        localStorage.setItem('tokenInfo', JSON.stringify(res.data));
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -125,7 +140,6 @@ export default function Login() {
         history.push(urlParams.get('redirect') || '/');
         return;
       }
-      console.log(res);
       // 如果失败去设置用户错误信息
       setUserLoginState(res);
     } catch (error) {
@@ -137,6 +151,8 @@ export default function Login() {
       message.error(defaultLoginFailureMessage);
     }
   };
+
+  const { code, msg = '' } = userLoginState || {};
 
   return (
     <div className={styles.root}>
@@ -153,6 +169,12 @@ export default function Login() {
             className={styles.loginForm}
             name="basic"
           >
+            {code === 0 && type === 'account' && (
+              <LoginMessage
+                content={msg}
+              />
+            )}
+
             <Form.Item name="account">
               <Input
                 className={styles.loginFormItem}
@@ -173,7 +195,7 @@ export default function Login() {
               <Checkbox className={styles.loginFormChexkBox}>记住密码</Checkbox>
             </Form.Item>
             <Form.Item>
-              <Button className={styles.loginFormBtn} type="primary" htmlType='submit' block>
+              <Button className={styles.loginFormBtn} type="primary" htmlType="submit" block>
                 立即登录
               </Button>
             </Form.Item>

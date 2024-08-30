@@ -18,10 +18,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponse"
+                $ref: "#/components/schemas/Response"
+              example:
+                {
+                  "code": 1,
+                  "message": "登录成功",
+                  "data":
+                    {
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                      "expiresAt": 1694149600,
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                      "reExpiresAt": 1694149600
+                    }
+                }
 
 components:
   schemas:
+    LoginType:
+      {
+        "type": "string",
+        "description": "登录类型，可以是 'email'、'phone' 或 'account'",
+        "enum": ["email", "phone", "account"]
+      }
     LoginReq:
       required: [account, password]
       type: object
@@ -33,9 +51,7 @@ components:
           type: string
           description: 用户的登录密码，使用密码登录时必须提供
         loginType:
-          type: string
-          description: 登录类型，可以是 'email'、'phone' 或 'account'
-          enum: [email, phone, account]
+           "$ref": "#/components/schemas/LoginType"
         phoneType:
           type: string
           description: 手机登录类型，当使用手机号登录时可以选择 'sms' 短信验证码登录
@@ -43,39 +59,26 @@ components:
       example:
         account: "admin"
         password: "123456"
-    LoginResponse:
-      allOf:
-        - $ref: "#/components/schemas/Success"
-        - type: object
-          required:
-            - msg
-            - data
-          properties:
-            msg:
-              type: string
-              description: 成功信息
-              example: "登录成功"
-            data:
-              type: object
-              required:
-                - accessToken
-                - expiresAt
-                - refreshToken
-                - reExpiresAt
-              properties:
-                accessToken:
-                  type: string
-                  description: JWT 访问令牌
-                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                expiresAt:
-                  type: integer
-                  description: 访问令牌过期时间
-                  example: "1694149600"
-                refreshToken:
-                  type: string
-                  description: 刷新令牌
-                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                reExpiresAt:
-                  type: integer
-                  description: 刷新令牌过期时间
-                  example: "1694149600"
+    TokenData:
+      required:
+        - accessToken
+        - expiresAt
+        - refreshToken
+        - reExpiresAt
+      properties:
+        accessToken:
+          type: string
+          description: JWT 访问令牌
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        expiresAt:
+          type: integer
+          description: 访问令牌过期时间
+          example: "1694149600"
+        refreshToken:
+          type: string
+          description: 刷新令牌
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        reExpiresAt:
+          type: integer
+          description: 刷新令牌过期时间
+          example: "1694149600"
