@@ -9,7 +9,7 @@ import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/users';
 import React from 'react';
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
+const loginPath = '/login';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -19,6 +19,7 @@ export async function getInitialState(): Promise<{
   currentUser?: API.User;
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.User | undefined>;
+  loginPath?: string;
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -40,11 +41,13 @@ export async function getInitialState(): Promise<{
       fetchUserInfo,
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
+      loginPath
     };
   }
   return {
     fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
+    loginPath
   };
 }
 

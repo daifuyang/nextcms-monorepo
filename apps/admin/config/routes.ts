@@ -12,21 +12,53 @@
  */
 export default [
   {
-    path: '/user',
+    name: 'login',
+    path: '/login',
     layout: false,
-    routes: [
-      {
-        name: 'login',
-        path: '/user/login',
-        component: './User/Login',
-      },
-    ],
+    component: './User/Login',
   },
   {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
     component: './Welcome',
+  },
+  {
+    path: '/user',
+    name: 'user',
+    icon: 'user',
+    routes: [
+      {
+        path: '/user',
+        redirect: '/user/admin',
+      },
+      {
+        name: 'user.admin',
+        path: '/user/admin',
+        routes: [
+          {
+            path: '/user/admin',
+            redirect: '/user/admin/list',
+          },
+          {
+            name: 'user.admin.list',
+            path: '/user/admin/list',
+            component: './User/Admin',
+            hideInMenu: true,
+          },
+          {
+            name: 'user.admin.add',
+            path: '/user/admin/add',
+            hideInMenu: true,
+          }
+        ],
+      },
+      {
+        name: 'user.role',
+        path: '/user/role',
+        component: './User/Role',
+      },
+    ],
   },
   {
     path: '/',
