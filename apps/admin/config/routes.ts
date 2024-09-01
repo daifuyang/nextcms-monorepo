@@ -50,15 +50,186 @@ export default [
             name: 'user.admin.add',
             path: '/user/admin/add',
             hideInMenu: true,
+          },
+          {
+            name: 'user.admin.edit',
+            path: '/user/admin/edit',
+            hideInMenu: true,
+          },
+          {
+            name: 'user.admin.delete',
+            path: '/user/admin/delete',
+            hideInMenu: true,
           }
         ],
       },
       {
         name: 'user.role',
         path: '/user/role',
-        component: './User/Role',
+        routes: [
+          {
+            path: '/user/role',
+            redirect: '/user/role/list',
+          },
+          {
+            name: 'user.role.list',
+            path: '/user/role/list',
+            component: './User/Role',
+            hideInMenu: true,
+          },
+          {
+            name: 'user.role.add',
+            path: '/user/role/add',
+            hideInMenu: true,
+          },
+          {
+            name: 'user.role.edit',
+            path: '/user/role/edit',
+            hideInMenu: true,
+          },
+          {
+            name: 'user.role.delete',
+            path: '/user/role/delete',
+            hideInMenu: true,
+          }
+        ]
       },
     ],
+  },
+  {
+    path: '/system',
+    name: 'system',
+    icon: 'setting',
+    routes: [
+      {
+        name: 'system.menu',
+        path: '/system/menu',
+        routes: [
+          {
+            path: '/system/menu',
+            redirect: '/system/menu/list',
+          },
+          {
+            name: 'system.menu.list',
+            path: '/system/menu/list',
+            component: './System/Menu',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.menu.add',
+            path: '/system/menu/add',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.menu.edit',
+            path: '/system/menu/edit',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.menu.delete',
+            path: '/system/menu/delete',
+            hideInMenu: true,
+          }
+        ]
+      },
+      {
+        name: 'system.department',
+        path: '/system/department',
+        routes: [
+          {
+            path: '/system/department',
+            redirect: '/system/department/list',
+          },
+          {
+            name: 'system.department.list',
+            path: '/system/department/list',
+            component: './System/Department',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.department.add',
+            path: '/system/department/add',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.department.edit',
+            path: '/system/department/edit',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.department.delete',
+            path: '/system/department/delete',
+            hideInMenu: true,
+          }
+        ]
+      },
+      {
+        name: 'system.post',
+        path: '/system/post',
+        routes: [
+          {
+            path: '/system/post',
+            redirect: '/system/post/list',
+          },
+          {
+            name: 'system.post.list',
+            path: '/system/post/list',
+            component: './System/Post',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.post.add',
+            path: '/system/post/add',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.post.edit',
+            path: '/system/post/edit',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.post.delete',
+            path: '/system/post/delete',
+            hideInMenu: true,
+          }
+        ]
+      },
+      {
+        name: 'system.dict',
+        path: '/system/dict',
+        routes: [
+          {
+            path: '/system/dict',
+            redirect: '/system/dict/list',
+          },
+          {
+            name: 'system.dict.list',
+            path: '/system/dict/list',
+            component: './System/Dict',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.dict.add',
+            path: '/system/dict/add',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.dict.edit',
+            path: '/system/dict/edit',
+            hideInMenu: true,
+          },
+          {
+            name: 'system.dict.delete',
+            path: '/system/dict/delete',
+            hideInMenu: true,
+          }
+        ]
+      },
+      {
+        name: 'system.log',
+        path: '/system/log',
+      }
+    ]
   },
   {
     path: '/',
