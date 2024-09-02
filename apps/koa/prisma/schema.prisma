@@ -49,3 +49,17 @@ model cmsUserToken {
 
   @@map("cms_user_token")
 }
+
+// 角色表
+model cmsRole {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique // 角色名称
+  description String? // 角色描述
+  sort        Int     @default(0) @db.TinyInt // 排序
+  status      Int     @default(1) @db.TinyInt // 角色状态，0 表示禁用，1 表示正常
+  createdAt   BigInt  @map("create_at") // 使用 UNIX 时间戳（毫秒）
+  updatedAt   BigInt  @map("update_at") // 更新时间，使用 bigint 类型
+
+  @@map("cms_role")
+}
+

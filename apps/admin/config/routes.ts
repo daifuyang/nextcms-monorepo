@@ -33,7 +33,7 @@ export default [
         redirect: '/user/admin',
       },
       {
-        name: 'user.admin',
+        name: 'admin',
         path: '/user/admin',
         routes: [
           {
@@ -41,30 +41,30 @@ export default [
             redirect: '/user/admin/list',
           },
           {
-            name: 'user.admin.list',
+            name: 'list',
             path: '/user/admin/list',
             component: './User/Admin',
             hideInMenu: true,
           },
           {
-            name: 'user.admin.add',
+            name: 'add',
             path: '/user/admin/add',
             hideInMenu: true,
           },
           {
-            name: 'user.admin.edit',
+            name: 'edit',
             path: '/user/admin/edit',
             hideInMenu: true,
           },
           {
-            name: 'user.admin.delete',
+            name: 'delete',
             path: '/user/admin/delete',
             hideInMenu: true,
           }
         ],
       },
       {
-        name: 'user.role',
+        name: 'role',
         path: '/user/role',
         routes: [
           {
@@ -72,23 +72,23 @@ export default [
             redirect: '/user/role/list',
           },
           {
-            name: 'user.role.list',
+            name: 'list',
             path: '/user/role/list',
             component: './User/Role',
             hideInMenu: true,
           },
           {
-            name: 'user.role.add',
+            name: 'add',
             path: '/user/role/add',
             hideInMenu: true,
           },
           {
-            name: 'user.role.edit',
+            name: 'edit',
             path: '/user/role/edit',
             hideInMenu: true,
           },
           {
-            name: 'user.role.delete',
+            name: 'delete',
             path: '/user/role/delete',
             hideInMenu: true,
           }
@@ -102,7 +102,7 @@ export default [
     icon: 'setting',
     routes: [
       {
-        name: 'system.menu',
+        name: 'menu',
         path: '/system/menu',
         routes: [
           {
@@ -110,30 +110,30 @@ export default [
             redirect: '/system/menu/list',
           },
           {
-            name: 'system.menu.list',
+            name: 'list',
             path: '/system/menu/list',
             component: './System/Menu',
             hideInMenu: true,
           },
           {
-            name: 'system.menu.add',
+            name: 'add',
             path: '/system/menu/add',
             hideInMenu: true,
           },
           {
-            name: 'system.menu.edit',
+            name: 'edit',
             path: '/system/menu/edit',
             hideInMenu: true,
           },
           {
-            name: 'system.menu.delete',
+            name: 'delete',
             path: '/system/menu/delete',
             hideInMenu: true,
           }
         ]
       },
       {
-        name: 'system.department',
+        name: 'department',
         path: '/system/department',
         routes: [
           {
@@ -141,30 +141,30 @@ export default [
             redirect: '/system/department/list',
           },
           {
-            name: 'system.department.list',
+            name: 'list',
             path: '/system/department/list',
             component: './System/Department',
             hideInMenu: true,
           },
           {
-            name: 'system.department.add',
+            name: 'add',
             path: '/system/department/add',
             hideInMenu: true,
           },
           {
-            name: 'system.department.edit',
+            name: 'edit',
             path: '/system/department/edit',
             hideInMenu: true,
           },
           {
-            name: 'system.department.delete',
+            name: 'delete',
             path: '/system/department/delete',
             hideInMenu: true,
           }
         ]
       },
       {
-        name: 'system.post',
+        name: 'post',
         path: '/system/post',
         routes: [
           {
@@ -172,30 +172,30 @@ export default [
             redirect: '/system/post/list',
           },
           {
-            name: 'system.post.list',
+            name: 'list',
             path: '/system/post/list',
             component: './System/Post',
             hideInMenu: true,
           },
           {
-            name: 'system.post.add',
+            name: 'add',
             path: '/system/post/add',
             hideInMenu: true,
           },
           {
-            name: 'system.post.edit',
+            name: 'edit',
             path: '/system/post/edit',
             hideInMenu: true,
           },
           {
-            name: 'system.post.delete',
+            name: 'delete',
             path: '/system/post/delete',
             hideInMenu: true,
           }
         ]
       },
       {
-        name: 'system.dict',
+        name: 'dict',
         path: '/system/dict',
         routes: [
           {
@@ -203,30 +203,30 @@ export default [
             redirect: '/system/dict/list',
           },
           {
-            name: 'system.dict.list',
+            name: 'list',
             path: '/system/dict/list',
             component: './System/Dict',
             hideInMenu: true,
           },
           {
-            name: 'system.dict.add',
+            name: 'add',
             path: '/system/dict/add',
             hideInMenu: true,
           },
           {
-            name: 'system.dict.edit',
+            name: 'edit',
             path: '/system/dict/edit',
             hideInMenu: true,
           },
           {
-            name: 'system.dict.delete',
+            name: 'delete',
             path: '/system/dict/delete',
             hideInMenu: true,
           }
         ]
       },
       {
-        name: 'system.log',
+        name: 'log',
         path: '/system/log',
       }
     ]
