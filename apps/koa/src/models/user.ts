@@ -3,10 +3,10 @@ import redis from "@/lib/redis";
 import { serializeData } from "@/lib/util";
 import { cmsUser, Prisma } from "@prisma/client";
 
-const userIdkey = "user:id:";
+const userIdKey = "user:id:";
 // 根据id获取用户
 export const getUserById = async (id: number, tx = prisma) => {
-  const cache = await redis.get(`${userIdkey}${{ id }}`);
+  const cache = await redis.get(`${userIdKey}${id}`);
   let user: cmsUser | null = null;
   if (cache) {
     user = JSON.parse(cache);
@@ -20,7 +20,7 @@ export const getUserById = async (id: number, tx = prisma) => {
     });
 
     if (user) {
-      redis.set(`${userIdkey}${{ id }}`, serializeData(user));
+      redis.set(`${userIdKey}${{ id }}`, serializeData(user));
     }
   }
 

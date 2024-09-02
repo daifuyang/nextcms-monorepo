@@ -71,7 +71,21 @@ const options = {
           scheme: 'bearer',
           bearerFormat: 'JWT',  // 可选
         },
-      }
+      },
+      parameters: {
+        Page: {
+          name: "page",
+          in: "query",
+          required: false,
+          description: "当前页",
+        },
+        PageSize: {
+          name: "pageSize",
+          in: "query",
+          required: false,
+          description: "每页数量",
+        },
+      },
     },
     security: [
       {
@@ -82,6 +96,10 @@ const options = {
       {
         name: "users",
         description: "用户相关"
+      },
+      {
+        name: "roles",
+        description: "角色管理"
       }
     ],
     

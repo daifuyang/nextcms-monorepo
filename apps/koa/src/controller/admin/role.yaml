@@ -1,0 +1,108 @@
+paths:
+  /api/v1/admin/role:
+    get:
+      summary: 获取用户角色列表
+      description: 返回用户角色的分页列表。
+      security:
+        - bearerAuth: []
+      tags:
+        - roles
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+      responses:
+        "200":
+          description: 用户角色的分页列表。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+              example:
+                {
+                  "code": 1,
+                  "msg": "获取成功！",
+                  "data":
+                    {
+                      "page": 1,
+                      "pageSize": 10,
+                      "total": 2,
+                      "data":
+                        [
+                          {
+                            "id": 1,
+                            "name": "超级管理员",
+                            "description": "超级管理员",
+                            "sort": 0,
+                            "status": 1,
+                            "createdAt": "0",
+                            "updatedAt": "0"
+                          },
+                          {
+                            "id": 2,
+                            "name": "普通管理员",
+                            "description": "普通管理员",
+                            "sort": 0,
+                            "status": 1,
+                            "createdAt": "0",
+                            "updatedAt": "0"
+                          }
+                        ]
+                    }
+                }
+    post:
+      summary: 创建用户角色
+      description: 创建一个新的用户角色。
+      security:
+        - bearerAuth: []
+      tags:
+        - roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Role"
+      responses:
+        "200":
+          description: 创建成功。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+              example:
+                {
+                  "code": 1,
+                  "msg": "创建成功！",
+                  "data":
+                    {
+                      "id": 1,
+                      "name": "管理员",
+                      "description": "负责管理系统的管理员角色",
+                      "sort": 1,
+                      "status": 1,
+                      "createdAt": "12345678910",
+                      "updatedAt": "12345678910"
+                    }
+                }
+
+components:
+  schemas:
+    Role:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 角色名称
+          example: "管理员"
+        description:
+          type: string
+          description: 角色描述
+          example: "负责管理系统的管理员角色"
+        sort:
+          type: integer
+          description: 排序值
+          example: 1
+        status:
+          type: integer
+          description: 角色状态，1表示启用，0表示禁用
+          example: 1
