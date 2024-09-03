@@ -12,7 +12,13 @@ const set = (key: string, value: string) => {
   return redis.set(appName + ":" + key, value);
 };
 
+const del = (key: string) => {
+  const appName = process.env.APP_NAME || "nextcms";
+  return redis.del(appName + ":" + key);
+}
+
 export default {
   get,
-  set
+  set,
+  del
 };

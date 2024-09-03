@@ -4,7 +4,7 @@ export interface JsonResult<T> {
   data: T | null;
 }
 
-const json:JsonResult<null> = {
+const json: JsonResult<null> = {
   code: 1,
   msg: "",
   data: null
@@ -13,18 +13,32 @@ const json:JsonResult<null> = {
 function success(msg: string, data: any = null) {
   json.code = 1;
   json.msg = msg;
-  json.data = data;
+  json.data = JSON.parse(
+    JSON.stringify(data, (key, value) => {
+      if (typeof value === "bigint") {
+        return value.toString(); // 将BigInt转换为字符串
+      }
+      return value
+    })
+  );
   return json;
 }
 
 function error(msg: string, data: any = null) {
   json.code = 0;
   json.msg = msg;
-  json.data = data;
+  json.data = JSON.parse(
+    JSON.stringify(data, (key, value) => {
+      if (typeof value === "bigint") {
+        return value.toString(); // 将BigInt转换为字符串
+      }
+      return value
+    })
+  );
   return json;
 }
 
-function errorWithCode(code: number,msg: string, data: any = null) {
+function errorWithCode(code: number, msg: string, data: any = null) {
   json.code = code;
   json.msg = msg;
   json.data = data;
@@ -41,7 +55,7 @@ export type Pagination<T> = {
 const response = {
   success,
   error,
-  errorWithCode,
+  errorWithCode
 };
 
-export default response
+export default response;

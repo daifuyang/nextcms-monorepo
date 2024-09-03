@@ -23,14 +23,8 @@ export const getUserById = async (id: number, tx = prisma) => {
       redis.set(`${userIdKey}${{ id }}`, serializeData(user));
     }
   }
-
-  const newUser = {
-    ...user,
-    createdAt: user?.createdAt.toString(),
-    updatedAt: user?.updatedAt.toString()
-  }
   
-  return newUser;
+  return user;
 };
 
 // 根据条件获取单个用户

@@ -59,7 +59,7 @@ model cmsRole {
   status      Int     @default(1) @db.TinyInt // 角色状态，0 表示禁用，1 表示正常
   createdAt   BigInt  @map("create_at") // 使用 UNIX 时间戳（毫秒）
   updatedAt   BigInt  @map("update_at") // 更新时间，使用 bigint 类型
+  deletedAt   BigInt  @default(0) @map("delete_at") // 删除时间，使用 bigint 类型
 
   @@map("cms_role")
 }
-
