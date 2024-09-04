@@ -13,7 +13,7 @@ import {
 export const getUsers = async (ctx: any) => {
   // 获取查询参数
   const query = ctx.query || {};
-  const { page = "1", pageSize = "10", loginName = "", phone = "", status = "" } = query;
+  const { current = "1", pageSize = "10", loginName = "", phone = "", status = "" } = query;
 
   const where: {
     userType: 1;
@@ -40,7 +40,7 @@ export const getUsers = async (ctx: any) => {
     where.status = Number(status);
   }
 
-  const users = await getUsersModel(Number(page), Number(pageSize), where);
+  const users = await getUsersModel(Number(current), Number(pageSize), where);
 
   const data = users.map((item: any) => {
     const newItem = { ...item };

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ProTable, ProColumns, PageContainer } from '@ant-design/pro-components';
+import { ProTable, ProColumns, PageContainer, ActionType } from '@ant-design/pro-components';
 import { Role } from '@/typings/role';
-import { Button, Divider, Space, Typography } from 'antd';
-import { getRoles } from '@/services/ant-design-pro/roles';
+import { Button, Divider, message, Popconfirm, Space, Typography } from 'antd';
+import { deleteRole, getRoles } from '@/services/ant-design-pro/roles';
 import { PlusOutlined } from '@ant-design/icons';
 import SaveForm from './saveForm';
 
@@ -28,17 +28,18 @@ const columns: ProColumns<Role>[] = [
   {
     title: '角色名称',
     dataIndex: 'name',
-    width: 260,
+    width: 200,
   },
   {
     title: '角色描述',
     dataIndex: 'description',
+    width: 280,
   },
   {
     title: '创建时间',
     dataIndex: 'createdTime',
     valueType: 'dateTime',
-    width: 240,
+    width: 200,
     hideInSearch: true,
   },
   {
@@ -59,14 +60,14 @@ const columns: ProColumns<Role>[] = [
     title: '更新时间',
     dataIndex: 'updatedTime',
     valueType: 'dateTime',
-    width: 240,
+    width: 200,
     hideInSearch: true,
   },
   {
     title: '状态',
     dataIndex: 'status',
     valueType: 'select',
-    width: 200,
+    width: 100,
     initialValue: 'all',
     valueEnum: {
       all: { text: '全部', status: 'Default' },
@@ -77,21 +78,51 @@ const columns: ProColumns<Role>[] = [
   {
     title: '操作',
     valueType: 'option',
-    width: 180,
+    width: 200,
     render: (text, record, _, action) => (
       <Space split={<Divider type="vertical" />}>
-        <Typography.Link>查看</Typography.Link>
-        <Typography.Link>编辑</Typography.Link>
-        <Typography.Text type="danger">删除</Typography.Text>
+        <SaveForm
+          title="查看角色"
+          initialValues={{ ...record, status: statusValueEnum[record.status] }}
+          readOnly
+        >
+          <Typography.Link>查看</Typography.Link>
+        </SaveForm>
+        <SaveForm
+          title="编辑角色"
+          initialValues={{ ...record, status: statusValueEnum[record.status] }}
+          onOk={() => {
+            action?.reload();
+          }}
+        >
+          <Typography.Link>编辑</Typography.Link>
+        </SaveForm>
+        <Popconfirm
+          title="确定删除吗？"
+          onConfirm={async () => {
+            const res = await deleteRole({ id: record.id });
+            if (res.code === 1) {
+              message.success(res.msg);
+              action?.reload();
+              return;
+            }
+            message.error(res.msg);
+          }}
+        >
+          <Typography.Link type="danger">删除</Typography.Link>
+        </Popconfirm>
       </Space>
     ),
   },
 ];
 
 const RoleList: React.FC = () => {
+  const tableRef = React.useRef<ActionType>();
+
   return (
     <PageContainer>
       <ProTable<Role>
+        actionRef={tableRef}
         columns={columns}
         request={async (params, sort, filter) => {
           const { status = '' } = params;
@@ -121,10 +152,16 @@ const RoleList: React.FC = () => {
         }}
         rowKey="id"
         toolBarRender={() => [
-          <SaveForm title='新建角色' key="add">
+          <SaveForm
+            title="新建角色"
+            key="add"
+            onOk={() => {
+              tableRef.current?.reload();
+            }}
+          >
             <Button icon={<PlusOutlined />} type="primary">
-            新建
-          </Button>
+              新建
+            </Button>
           </SaveForm>,
         ]}
         search={{

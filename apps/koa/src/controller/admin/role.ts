@@ -19,7 +19,7 @@ import redis from "@/lib/redis";
 export async function getRoles(ctx: Context) {
   // 获取查询参数
   const query = ctx.query || {};
-  const { page = "1", pageSize = "10", name = "", description = "", status = "" } = query;
+  const { current = "1", pageSize = "10", name = "", description = "", status = "" } = query;
 
   const where: {
     name?: any;
@@ -43,14 +43,14 @@ export async function getRoles(ctx: Context) {
     where.status = Number(status);
   }
 
-  const roleList = await getRoleList(Number(page), Number(pageSize), where);
+  const roleList = await getRoleList(Number(current), Number(pageSize), where);
   let pagination = {};
   if (pageSize === "0") {
     pagination = roleList;
   } else {
     const total = await getRoleCount();
     pagination = {
-      page: Number(page),
+      page: Number(current),
       pageSize: Number(pageSize),
       total,
       data: roleList

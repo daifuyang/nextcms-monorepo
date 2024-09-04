@@ -4,4 +4,5 @@ export interface Role {
     name: string;
     key: string;
     desc: string;
+    status: string;
 }
