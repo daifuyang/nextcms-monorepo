@@ -30,7 +30,7 @@ export const getUserById = async (id: number, tx = prisma) => {
 };
 
 // 获取用户总数
-export const getUserCountModel = async (where: Prisma.cmsUserWhereInput = {}, tx = prisma) => {
+export const getUserCount = async (where: Prisma.cmsUserWhereInput = {}, tx = prisma) => {
   return await tx.cmsUser.count({
     where: {
       ...where,

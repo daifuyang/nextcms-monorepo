@@ -98,7 +98,7 @@ const columns: ProColumns<Role>[] = [
           <Typography.Link>编辑</Typography.Link>
         </SaveForm>
         <Popconfirm
-          title="确定删除吗？"
+          title="您确定删除吗？"
           onConfirm={async () => {
             const res = await deleteRole({ id: record.id });
             if (res.code === 1) {
@@ -128,13 +128,13 @@ const RoleList: React.FC = () => {
           const { status = '' } = params;
           params.status = statusValueEnum[status];
           const res: any = await getRoles(params);
-          const data = res.data.data.map((item: any) => {
-            return {
-              ...item,
-              status: statusKeyEnum[item.status],
-            };
-          });
           if (res.code === 1) {
+            const data = res.data.data.map((item: any) => {
+              return {
+                ...item,
+                status: statusKeyEnum[item.status],
+              };
+            });
             return {
               data,
               page: res.data.page,

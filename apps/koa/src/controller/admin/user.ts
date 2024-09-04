@@ -4,6 +4,7 @@ import {
   createUserModel,
   deleteUserModel,
   getUserById,
+  getUserCount,
   getUserModel,
   getUsersModel,
   updateUserModel
@@ -13,7 +14,7 @@ import {
 export const getUsers = async (ctx: any) => {
   // 获取查询参数
   const query = ctx.query || {};
-  const { current = "1", pageSize = "10", loginName = "", phone = "", status = "" } = query;
+  const { current = "1", pageSize = "10", loginName = "", phone = "", status = "" } = query; 
 
   const where: {
     userType: 1;
@@ -49,7 +50,19 @@ export const getUsers = async (ctx: any) => {
     return newItem;
   });
 
-  ctx.body = response.success("获取成功！", data);
+  let pagination = {};
+  if (pageSize === "0") {
+    pagination = data;
+  } else {
+    const total = await getUserCount();
+    pagination = {
+      page: Number(current),
+      pageSize: Number(pageSize),
+      total,
+      data: data
+    };
+  }
+  ctx.body = response.success("获取成功！", pagination);
   return;
 };
 
