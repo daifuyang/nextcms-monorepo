@@ -59,38 +59,24 @@ const options = {
         },
         securitySchemes: {
           bearerAuth: {
-            type: 'http',
-            scheme: 'bearer',
-            bearerFormat: 'JWT',  // 可选
-          },
-        },
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT" // 可选
+          }
+        }
       },
       securitySchemes: {
         bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',  // 可选
-        },
-      },
-      parameters: {
-        Page: {
-          name: "page",
-          in: "query",
-          required: false,
-          description: "当前页",
-        },
-        PageSize: {
-          name: "pageSize",
-          in: "query",
-          required: false,
-          description: "每页数量",
-        },
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT" // 可选
+        }
       },
     },
     security: [
       {
-        bearerAuth: [],  // 全局应用
-      },
+        bearerAuth: [] // 全局应用
+      }
     ],
     tags: [
       {
@@ -98,11 +84,15 @@ const options = {
         description: "用户相关"
       },
       {
+        name: "admins",
+        description: "管理员管理"
+      },
+      {
         name: "roles",
         description: "角色管理"
       }
     ],
-    
+
     servers: [
       {
         url: "/",

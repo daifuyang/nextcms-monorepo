@@ -3,27 +3,37 @@ paths:
     get:
       summary: 获取用户角色列表
       description: 返回用户角色的分页列表。
+      operationId: getRoles
       security:
         - bearerAuth: []
       tags:
         - roles
+
       parameters:
-        - $ref: "#/components/parameters/Page"
-        - $ref: "#/components/parameters/PageSize"
+        - name: "page"
+          in: "query"
+          required: false
+          description: "当前页"
+          schema:
+            type: "integer"
+        - name: "pageSize"
+          in: "query"
+          required: false
+          description: "每页数量"
+          schema:
+            type: "integer"
         - name: name
           in: query
           description: 角色名称
           required: false
           schema:
             type: string
-
         - name: description
           in: query
           description: 角色描述
           required: false
           schema:
             type: string
-
         - name: status
           in: query
           description: 角色状态
@@ -72,6 +82,7 @@ paths:
     post:
       summary: 创建用户角色
       description: 创建一个新的用户角色。
+      operationId: addRole
       security:
         - bearerAuth: []
       tags:
@@ -109,12 +120,18 @@ paths:
     get:
       summary: 获取单个角色
       description: 根据id获取单个角色
+      operationId: getRole
       security:
         - bearerAuth: []
       tags:
         - roles
       parameters:
-        - $ref: "#/components/parameters/Id"
+        - name: id
+          in: path
+          description: 角色唯一标识符
+          required: true
+          schema:
+            type: integer
       responses:
         "200":
           description: 用户角色的分页列表。
@@ -140,12 +157,18 @@ paths:
     post:
       summary: 更新用户角色
       description: 更新指定id的用户角色
+      operationId: updateRole
       security:
         - bearerAuth: []
       tags:
         - roles
       parameters:
-        - $ref: "#/components/parameters/Id"
+        - name: id
+          in: path
+          description: 角色唯一标识符
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -177,12 +200,18 @@ paths:
     delete:
       summary: 删除用户角色
       description: 删除指定id的用户角色
+      operationId: deleteRole
       security:
         - bearerAuth: []
       tags:
         - roles
       parameters:
-        - $ref: "#/components/parameters/Id"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
         "200":
           description: 删除成功。
@@ -207,14 +236,6 @@ paths:
                 }
 
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-        example: 1
   schemas:
     Role:
       type: object

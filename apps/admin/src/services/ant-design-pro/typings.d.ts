@@ -1,4 +1,49 @@
 declare namespace API {
+  type deleteRoleParams = {
+    id: number;
+  };
+
+  type deleteUserParams = {
+    /** 管理员用户的ID */
+    id: number;
+  };
+
+  type getRoleParams = {
+    /** 角色唯一标识符 */
+    id: number;
+  };
+
+  type getRolesParams = {
+    /** 当前页 */
+    page?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 角色名称 */
+    name?: string;
+    /** 角色描述 */
+    description?: string;
+    /** 角色状态 */
+    status?: number;
+  };
+
+  type getUserParams = {
+    /** 管理员用户的ID */
+    id: number;
+  };
+
+  type getUsersParams = {
+    /** 当前页 */
+    page?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 通过登录名筛选 */
+    loginName?: string;
+    /** 通过手机号筛选 */
+    phone?: string;
+    /** 通过状态筛选，0表示禁用，1表示启用 */
+    status?: 0 | 1;
+  };
+
   type LoginReq = {
     /** 用户的账号，可以是邮箱、手机号或用户名 */
     account: string;
@@ -19,6 +64,17 @@ declare namespace API {
     data?: Record<string, any> | Record<string, any>[] | string | number | boolean;
   };
 
+  type Role = {
+    /** 角色名称 */
+    name?: string;
+    /** 角色描述 */
+    description?: string;
+    /** 排序值 */
+    sort?: number;
+    /** 角色状态，1表示启用，0表示禁用 */
+    status?: number;
+  };
+
   type securitySchemes = Record<string, any>;
 
   type TokenData = {
@@ -35,6 +91,16 @@ declare namespace API {
   type UnAuthorized = {
     /** Response message */
     msg: string;
+  };
+
+  type updateRoleParams = {
+    /** 角色唯一标识符 */
+    id: number;
+  };
+
+  type updateUserParams = {
+    /** 管理员用户的ID */
+    id: number;
   };
 
   type User = {

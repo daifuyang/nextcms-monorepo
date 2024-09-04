@@ -1,3 +1,4 @@
+import { formatFields, now } from "@/lib/date";
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { serializeData } from "@/lib/util";
@@ -33,10 +34,15 @@ export const getRoleList = async (
     ...args
   });
 
+  formatFields(roles, [
+    { fromField: "createdAt", toField: "createdTime" },
+    { fromField: "updatedAt", toField: "updatedTime" }
+  ]);
+
   return roles;
 };
 
-// 获取角色详情
+// 根据id获取角色详情
 export const getRoleById = async (id: number, tx = prisma) => {
   const cache = await redis.get(`${roleIdKey}${id}`);
   if (cache) {
@@ -57,6 +63,15 @@ export const getRoleById = async (id: number, tx = prisma) => {
   return role;
 };
 
+export const getRoleByName = async (name: string, tx = prisma) => {
+  return await tx.cmsRole.findFirst({
+    where: {
+      name,
+      deletedAt: 0
+    }
+  });
+};
+
 // 获取角色总数
 export const getRoleCount = async (tx = prisma) => {
   return await tx.cmsRole.count({
@@ -67,7 +82,7 @@ export const getRoleCount = async (tx = prisma) => {
 };
 
 // 创建角色
-export const createRole = async (data: any, tx = prisma) => {
+export const createRoleModel = async (data: any, tx = prisma) => {
   const role = await tx.cmsRole.create({
     data
   });
@@ -81,7 +96,7 @@ export const createRole = async (data: any, tx = prisma) => {
 };
 
 // 更新角色
-export const updateRole = async (id: number, data: Prisma.cmsRoleUpdateInput, tx = prisma) => {
+export const updateRoleModel = async (id: number, data: Prisma.cmsRoleUpdateInput, tx = prisma) => {
   const role = await tx.cmsRole.update({
     where: {
       id
@@ -93,5 +108,18 @@ export const updateRole = async (id: number, data: Prisma.cmsRoleUpdateInput, tx
     redis.del(`${roleIdKey}${id}`);
   }
 
+  return role;
+};
+
+// 删除角色
+export const deleteRoleModel = async (id: number, tx = prisma) => {
+  const role = await tx.cmsRole.update({
+    where: {
+      id
+    },
+    data: {
+      deletedAt: now()
+    }
+  });
   return role;
 };

@@ -26,13 +26,13 @@ model cmsUser {
   gender    Int     @default(0) @db.TinyInt // 用户性别，0 表示未知，1 表示男，2 表示女
   birthday  BigInt? // 用户的生日
   userType  Int     @default(0) @map("user_type") @db.TinyInt // 用户类型, 0 未激活，1 管理员，2 普通用户
-  name      String? // 用户名
   avatar    String? // 头像
   loginIp   String? @map("login_ip") // 最后登录IP
   loginTime BigInt? @map("login_time") // 最后登录时间
   status    Int     @default(1) @db.TinyInt // 用户状态，0 表示正常，1 表示禁用
   createdAt BigInt  @map("create_at") // 使用 UNIX 时间戳（毫秒）
   updatedAt BigInt  @map("update_at") // 更新时间，使用 bigint 类型
+  deletedAt   BigInt  @default(0) @map("delete_at") // 删除时间，使用 bigint 类型
 
   @@map("cms_user")
 }
@@ -53,7 +53,7 @@ model cmsUserToken {
 // 角色表
 model cmsRole {
   id          Int     @id @default(autoincrement())
-  name        String  @unique // 角色名称
+  name        String  // 角色名称
   description String? // 角色描述
   sort        Int     @default(0) @db.TinyInt // 排序
   status      Int     @default(1) @db.TinyInt // 角色状态，0 表示禁用，1 表示正常

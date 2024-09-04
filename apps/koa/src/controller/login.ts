@@ -4,7 +4,7 @@ import response from "@/lib/response";
 import { LoginReq } from "@/typings/login";
 import { cmsUser } from "@prisma/client";
 import { Context } from "koa";
-import { getUser } from "@/models/user";
+import { getUserModel } from "@/models/user";
 import { parseJson } from "@/lib/request";
 import { createUserToken } from "@/models/userToken";
 import { calculateExpiresAt } from "@/lib/date";
@@ -50,15 +50,15 @@ export const Login = async (ctx: Context) => {
   switch (loginType) {
     case "email":
       // 邮箱登录逻辑
-      user = await getUser({ email: account });
+      user = await getUserModel({ email: account });
       break;
     case "phone":
       // 手机号登录逻辑
-      user = await getUser({ phone: account });
+      user = await getUserModel({ phone: account });
       break;
     case "account":
       // 用户名登录逻辑
-      user = await getUser({ loginName: account });
+      user = await getUserModel({ loginName: account });
       break;
   }
   // 检查用户是否存在
