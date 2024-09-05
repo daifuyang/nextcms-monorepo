@@ -1,4 +1,5 @@
-import { addRole, getRole, updateRole } from '@/services/ant-design-pro/roles';
+import { addUser, getUser, updateUser } from '@/services/ant-design-pro/admins';
+import { Admin } from '@/typings/admin';
 import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { App, Form } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
@@ -11,16 +12,8 @@ declare interface Props {
   onOk?: () => void;
 }
 
-declare interface FormData {
-  id?: number;
-  name: string;
-  description?: string;
-  sort?: number;
-  status?: 0 | 1; // 0:禁用 1:启用
-}
-
 const SaveForm = (props: Props) => {
-  const [form] = Form.useForm<FormData>();
+  const [form] = Form.useForm<Admin>();
   const { message } = App.useApp();
 
   const [open, setOpen] = useState(false);
@@ -29,9 +22,9 @@ const SaveForm = (props: Props) => {
   const fetchData = useCallback(
     async (id: number) => {
       try {
-        const res = await getRole({ id });
+        const res = await getUser({ id });
         if (res.code === 1) {
-          form.setFieldsValue(res.data as FormData);
+          form.setFieldsValue(res.data as Admin);
         }
       } catch (error) {
         message.error('请求失败');
@@ -47,7 +40,7 @@ const SaveForm = (props: Props) => {
   }, [open]);
 
   return (
-    <ModalForm<FormData>
+    <ModalForm<Admin>
       title={title}
       trigger={children}
       form={form}
@@ -63,9 +56,9 @@ const SaveForm = (props: Props) => {
       onFinish={async (values) => {
         let res: any;
         if (values?.id) {
-          res = await updateRole({ id: values.id }, values);
+          res = await updateUser({ id: values.id }, values);
         }else {
-          res = await addRole(values);
+          res = await addUser(values);
         }
         if (res.code === 1) {
           if (onOk) {
@@ -79,49 +72,6 @@ const SaveForm = (props: Props) => {
       }}
     >
       <ProFormText name="id" label="id" hidden></ProFormText>
-      <ProFormText
-        name="name"
-        label="角色名称"
-        placeholder="请输入角色名称"
-        fieldProps={{ readOnly }}
-      />
-      <ProFormText
-        name="description"
-        label="角色描述"
-        placeholder="请输入角色描述"
-        fieldProps={{ readOnly }}
-      />
-      <ProFormDigit
-        name="sort"
-        label="排序"
-        fieldProps={{ precision: 0, readOnly }}
-        placeholder="请输入排序"
-      />
-
-      {readOnly ? (
-        <ProFormText
-          label="状态"
-          fieldProps={{
-            readOnly: true,
-            value: initialValues?.status === 1 ? '启用' : '禁用',
-          }}
-        />
-      ) : (
-        <ProFormRadio.Group
-          name="status"
-          label="状态"
-          options={[
-            {
-              label: '启用',
-              value: 1,
-            },
-            {
-              label: '禁用',
-              value: 0,
-            },
-          ]}
-        />
-      )}
     </ModalForm>
   );
 };

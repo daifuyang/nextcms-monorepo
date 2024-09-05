@@ -1,8 +1,8 @@
 // interfaces.ts
 export interface Role {
-    id: number;
+    id?: number;
     name: string;
-    key: string;
-    desc: string;
-    status: string;
+    description?: string;
+    sort?: number;
+    status?: 0 | 1; // 0:禁用 1:启用
 }

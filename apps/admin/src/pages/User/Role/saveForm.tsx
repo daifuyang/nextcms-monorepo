@@ -1,4 +1,5 @@
 import { addRole, getRole, updateRole } from '@/services/ant-design-pro/roles';
+import { Role } from '@/typings/role';
 import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { App, Form } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
@@ -11,16 +12,8 @@ declare interface Props {
   onOk?: () => void;
 }
 
-declare interface FormData {
-  id?: number;
-  name: string;
-  description?: string;
-  sort?: number;
-  status?: 0 | 1; // 0:禁用 1:启用
-}
-
 const SaveForm = (props: Props) => {
-  const [form] = Form.useForm<FormData>();
+  const [form] = Form.useForm<Role>();
   const { message } = App.useApp();
 
   const [open, setOpen] = useState(false);
@@ -31,7 +24,7 @@ const SaveForm = (props: Props) => {
       try {
         const res = await getRole({ id });
         if (res.code === 1) {
-          form.setFieldsValue(res.data as FormData);
+          form.setFieldsValue(res.data as Role);
         }
       } catch (error) {
         message.error('请求失败');
@@ -47,7 +40,7 @@ const SaveForm = (props: Props) => {
   }, [open]);
 
   return (
-    <ModalForm<FormData>
+    <ModalForm<Role>
       title={title}
       trigger={children}
       form={form}

@@ -22,29 +22,29 @@ const columns: ProColumns<Admin>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 100,
+    width: 80,
     hideInSearch: true,
   },
   {
     title: '登录名',
     dataIndex: 'loginName',
-    width: 200,
+    width: 120,
   },
   {
     title: '昵称',
     dataIndex: 'nickname',
-    width: 200,
+    width: 120,
   },
   {
     title: '手机号',
     dataIndex: 'phone',
-    width: 200,
+    width: 150,
   },
   {
     title: '状态',
     dataIndex: 'status',
     valueType: 'select',
-    width: 100,
+    width: 80,
     initialValue: 'all',
     valueEnum: {
       all: { text: '全部', status: 'Default' },
@@ -55,13 +55,20 @@ const columns: ProColumns<Admin>[] = [
   {
     title: '登录IP',
     dataIndex: 'loginIp',
+    width: 120,
+    hideInSearch: true,
+  },
+  {
+    title: '最后登录时间',
+    dataIndex: 'loginTime',
     width: 150,
+    hideInSearch: true,
   },
   {
     title: '创建时间',
     dataIndex: 'createdTime',
     valueType: 'dateTime',
-    width: 200,
+    width: 120,
     hideInSearch: true,
   },
   {
@@ -77,13 +84,6 @@ const columns: ProColumns<Admin>[] = [
         };
       },
     },
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'updatedTime',
-    valueType: 'dateTime',
-    width: 200,
-    hideInSearch: true,
   },
   {
     title: '操作',
