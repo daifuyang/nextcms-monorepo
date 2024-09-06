@@ -1,6 +1,6 @@
 // interfaces.ts
 export interface Role {
-    id?: number;
+    id: number;
     name: string;
     description?: string;
     sort?: number;

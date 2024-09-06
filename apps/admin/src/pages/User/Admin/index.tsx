@@ -134,11 +134,14 @@ const UserList: React.FC = () => {
       <ProTable<Admin>
         actionRef={tableRef}
         columns={columns}
-        request={async (params, sort, filter) => {
+        request={async (params) => {
           const { status = '' } = params;
-          params.status = statusValueEnum[status];
+          params.status = undefined;
+          if (statusValueEnum[status]) {
+            params.status = statusValueEnum[status];
+          }
           const res: any = await getUsers(params); // 获取用户列表的接口
-          console.log('res',res);
+          console.log('res', res);
           if (res.code === 1) {
             const data = res.data.data.map((item: any) => {
               return {

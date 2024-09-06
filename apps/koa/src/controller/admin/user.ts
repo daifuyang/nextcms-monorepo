@@ -14,7 +14,7 @@ import {
 export const getUsers = async (ctx: any) => {
   // 获取查询参数
   const query = ctx.query || {};
-  const { current = "1", pageSize = "10", loginName = "", phone = "", status = "" } = query; 
+  const { current = "1", pageSize = "10", loginName = "", phone = "", status } = query; 
 
   const where: {
     userType: 1;
@@ -54,7 +54,7 @@ export const getUsers = async (ctx: any) => {
   if (pageSize === "0") {
     pagination = data;
   } else {
-    const total = await getUserCount();
+    const total = await getUserCount(where);
     pagination = {
       page: Number(current),
       pageSize: Number(pageSize),

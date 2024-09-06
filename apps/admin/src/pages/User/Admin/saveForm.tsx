@@ -1,8 +1,11 @@
 import { addUser, getUser, updateUser } from '@/services/ant-design-pro/admins';
+import { getRoles } from '@/services/ant-design-pro/roles';
 import { Admin } from '@/typings/admin';
+import { Role } from '@/typings/role';
 import {
   ModalForm,
   ProForm,
+  ProFormCheckbox,
   ProFormDigit,
   ProFormRadio,
   ProFormSelect,
@@ -67,6 +70,7 @@ const SaveForm = (props: Props) => {
       modalProps={{
         destroyOnClose: true,
         onCancel: () => {},
+        className: "next-modal"
       }}
       onFinish={async (values) => {
         let res: any;
@@ -111,12 +115,11 @@ const SaveForm = (props: Props) => {
         name="gender"
         label="性别"
         options={[
-          { label: '未知', value: 0 },
+          { label: '保密', value: 0 },
           { label: '男', value: 1 },
           { label: '女', value: 2 },
         ]}
       />
-      <ProFormUploadButton name="avatar" label="头像" fieldProps={{ maxCount: 1 }} />
 
       <ProFormRadio.Group
         name="status"
@@ -127,9 +130,37 @@ const SaveForm = (props: Props) => {
         ]}
       />
 
-      <ProFormSelect name="roles" label="角色" placeholder="请输入角色" mode="multiple" />
+      <ProFormUploadButton
+        colProps={{ span: 24 }}
+        name="avatar"
+        label="头像"
+        fieldProps={{ maxCount: 1 }}
+      />
 
-      <ProFormTextArea colProps={{span: 24}} name="remark" label="备注" placeholder="请输入备注" />
+      <ProFormCheckbox.Group
+        colProps={{ span: 24 }}
+        name="checkbox"
+        label="角色"
+        request={async () => {
+          const res = await getRoles({ pageSize: 0 });
+          if (res.code === 1) {
+            return (res.data as Role[]).map((item) => {
+              return {
+                label: item.name,
+                value: item.id,
+              };
+            });
+          }
+          return [];
+        }}
+      />
+
+      <ProFormTextArea
+        colProps={{ span: 24 }}
+        name="remark"
+        label="备注"
+        placeholder="请输入备注"
+      />
     </ModalForm>
   );
 };
