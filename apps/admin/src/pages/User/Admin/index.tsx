@@ -141,7 +141,6 @@ const UserList: React.FC = () => {
             params.status = statusValueEnum[status];
           }
           const res: any = await getUsers(params); // 获取用户列表的接口
-          console.log('res', res);
           if (res.code === 1) {
             const data = res.data.data.map((item: any) => {
               return {

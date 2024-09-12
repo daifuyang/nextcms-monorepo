@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
-import bcrypt from "bcrypt";
+
 import prisma from "@/lib/prisma";
 import { now } from "./date";
+import { hashPassword } from "./util";
 
 export const install = async () => {
   const lockDir = path.resolve(process.cwd(), "install");
@@ -19,7 +20,7 @@ export const install = async () => {
     }
   });
   if (!existUser) {
-    const password = bcrypt.hashSync("123456", 10);
+    const password = await hashPassword("123456")
 
     const user = await prisma.cmsUser.create({
       data: {

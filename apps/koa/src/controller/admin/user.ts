@@ -1,5 +1,6 @@
 import { now } from "@/lib/date";
 import response from "@/lib/response";
+import { hashPassword } from "@/lib/util";
 import {
   createUserModel,
   deleteUserModel,
@@ -92,7 +93,6 @@ export const addUser = async (ctx: any) => {
     password,
     gender,
     birthday,
-    userType,
     avatar,
     loginIp,
     loginTime,
@@ -131,16 +131,18 @@ export const addUser = async (ctx: any) => {
     }
   }
 
+  const hashPwd = await hashPassword(password);
+
   const data = {
     loginName,
     email,
-    phone: `${phone}`,
+    phone: phone && `${phone}`,
     nickname,
     realName,
-    password: `${password}`,
+    password: hashPwd,
     gender,
     birthday,
-    userType,
+    userType: 1,
     avatar,
     loginIp,
     loginTime,
