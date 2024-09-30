@@ -110,7 +110,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // if (initialState?.loading) return <PageLoading />;
       return (
         <App>
+          <div id='slave-root'>
           {children}
+          </div>
           {isDev && (
             <SettingDrawer
               disableUrlParams
@@ -139,3 +141,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 export const request = {
   ...errorConfig,
 };
+
+export const qiankun = {
+  apps: [
+    {
+      name: 'portal',
+      entry: '//localhost:8001',
+      container: '#slave-root'
+    }
+  ]
+}

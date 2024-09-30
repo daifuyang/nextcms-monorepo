@@ -232,6 +232,10 @@ export default [
     ]
   },
   {
+    path: '/portal/*',
+    microApp: 'portal',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

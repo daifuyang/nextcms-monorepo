@@ -151,11 +151,14 @@ export default defineConfig({
       schemaPath: "http://localhost:3000/swagger.json",
       mock: false,
     },
-   
   ],
   mfsu: {
     strategy: 'normal',
   },
   esbuildMinifyIIFE: true,
   requestRecord: {},
+  qiankun: {
+    master: {},
+  },
+  publicPath: "/"
 });
