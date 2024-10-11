@@ -82,9 +82,6 @@ export const createUserModel = async (data: Prisma.sysUserCreateInput, tx = pris
   const user = await tx.sysUser.create({
     data
   });
-  if (user) {
-    redis.set(`${userIdKey}:${user.id}`, serializeData(user));
-  }
   return user;
 };
 

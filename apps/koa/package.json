@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "start": "node dist/src/index.js",
-    "dev": "npx nodemon",
+    "dev": "cross-env NODE_ENV=development npx nodemon",
     "build": "tsc",
     "migrate": "npx prisma migrate dev"
   },
@@ -37,6 +37,7 @@
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.14.15",
     "@types/swagger-jsdoc": "^6.0.4",
+    "cross-env": "^7.0.3",
     "nodemon": "^3.1.4",
     "prisma": "^5.20.0",
     "ts-node": "^10.9.2",

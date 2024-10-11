@@ -3,10 +3,12 @@ import path from "path";
 import migrateUser from "../migrate/user";
 import migrateMenu from "../migrate/menu";
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 export const install = async () => {
   const lockDir = path.resolve(process.cwd(), "install");
   const lockFile = path.resolve(lockDir, "install.lock");
-  if (fs.existsSync(lockFile)) {
+  if (fs.existsSync(lockFile) && !isDevelopment) {
     console.log("已经安装过");
     return;
   }

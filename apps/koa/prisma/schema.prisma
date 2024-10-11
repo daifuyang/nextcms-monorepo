@@ -30,8 +30,8 @@ model sysUser {
   loginAt Int?    @map("login_at") // 最后登录时间
   status    Int     @default(1) @db.TinyInt // 用户状态，0 表示正常，1 表示禁用
   createdAt Int     @map("create_at") // 使用 UNIX 时间戳（毫秒）
-  updatedAt Int     @map("update_at") // 更新时间，使用 bigint 类型
-  deletedAt Int     @default(0) @map("delete_at") // 删除时间，使用 bigint 类型
+  updatedAt Int     @map("update_at") // 更新时间，使用 int 类型
+  deletedAt Int     @default(0) @map("delete_at") // 删除时间，使用 int 类型
 
   @@map("sys_user")
 }
@@ -56,17 +56,17 @@ model sysRole {
   sort        Int     @default(1) @db.TinyInt // 排序
   status      Int     @default(1) @db.TinyInt // 角色状态，0 表示禁用，1 表示正常
   createdAt   Int  @map("create_at") // 使用 UNIX 时间戳（毫秒）
-  updatedAt   Int  @map("update_at") // 更新时间，使用 bigint 类型
-  deletedAt   Int  @default(0) @map("delete_at") // 删除时间，使用 bigint 类型
+  updatedAt   Int  @map("update_at") // 更新时间，使用 int 类型
+  deletedAt   Int  @default(0) @map("delete_at") // 删除时间，使用 int 类型
 
   @@map("sys_role")
 }
 
 // 菜单表
 model sysMenu {
-  menuId    BigInt  @id @default(autoincrement()) @map("menu_id") // 菜单ID
+  menuId    Int  @id @default(autoincrement()) @map("menu_id") // 菜单ID
   menuName  String  @map("menu_name") @db.VarChar(50) // 菜单名称
-  parentId  BigInt  @default(0) @map("parent_id") // 父菜单ID
+  parentId  Int  @default(0) @map("parent_id") // 父菜单ID
   order     Int     @default(0) @map("order") // 排序
   path      String  @default("") @map("path") @db.VarChar(200) // 路由地址
   component String? @map("component") @db.VarChar(255) // 组件路径
@@ -78,8 +78,10 @@ model sysMenu {
   status    Int     @default(0) @map("status") @db.TinyInt // 菜单状态（0正常 1停用）
   perms     String? @map("perms") @db.VarChar(100) // 权限标识
   icon      String  @map("icon") @db.VarChar(100) // 菜单图标
+  createdId Int?    @map("created_id")
   createdBy String  @default("") @map("created_by") @db.VarChar(64)
   createdAt Int?    @map("created_at")
+  updatedId Int?    @map("updated_id")
   updatedBy String  @default("") @map("updated_by") @db.VarChar(64)
   updatedAt Int?    @map("updated_at")
   remark    String  @default("") @map("remark") @db.VarChar(500)

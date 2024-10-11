@@ -86,12 +86,7 @@ export const createRoleModel = async (data: any, tx = prisma) => {
   const role = await tx.sysRole.create({
     data
   });
-
-  if (role) {
-    const { id } = role;
-    redis.set(`${roleIdKey}${id}`, serializeData(role));
-  }
-
+  
   return role;
 };
 
