@@ -66,7 +66,7 @@ const columns: ProColumns<Admin>[] = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createdTime',
+    dataIndex: 'createTime',
     valueType: 'dateTime',
     width: 120,
     hideInSearch: true,

@@ -1,4 +1,4 @@
-import { now } from "@/lib/date";
+import { formatFields, now } from "@/lib/date";
 import response from "@/lib/response";
 import { hashPassword } from "@/lib/util";
 import {
@@ -15,7 +15,7 @@ import {
 export const getUsers = async (ctx: any) => {
   // 获取查询参数
   const query = ctx.query || {};
-  const { current = "1", pageSize = "10", loginName = "", phone = "", status } = query; 
+  const { current = "1", pageSize = "10", loginName = "", phone = "", status } = query;
 
   const where: {
     userType: 1;
@@ -44,10 +44,15 @@ export const getUsers = async (ctx: any) => {
 
   const users = await getUsersModel(Number(current), Number(pageSize), where);
 
+  formatFields(users, [
+    { fromField: "loginAt", toField: "loginTime" },
+    { fromField: "createdAt", toField: "createTime" },
+    { fromField: "updatedAt", toField: "updateTime" }
+  ]);
+
   const data = users.map((item: any) => {
     const newItem = { ...item };
     delete newItem.password;
-
     return newItem;
   });
 

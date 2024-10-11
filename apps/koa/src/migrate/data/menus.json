@@ -1,0 +1,45 @@
+[
+    {
+        "perms": "user",
+        "menuName": "管理员",
+        "path": "/user",
+        "children": [
+            {
+                "perms": "user:admin",
+                "menuName": "管理员管理",
+                "path": "/user/admin",
+                "children": [
+                    {
+                        "perms": "user:admin:list",
+                        "menuName": "管理员列表",
+                        "path": "/user/admin/list",
+                        "menuType": "C"
+                    },
+                    {
+                        "perms": "user:admin:add",
+                        "menuName": "添加管理员",
+                        "path": "/user/admin/add",
+                        "menuType": "F"
+                    },
+                    {
+                        "perms": "user:admin:edit/:id",
+                        "menuName": "编辑管理员",
+                        "path": "/user/admin/add",
+                        "menuType": "F"
+                    },
+                    {
+                        "perms": "user:admin:delete/:id",
+                        "menuName": "删除管理员",
+                        "path": "/user/admin/delete",
+                        "menuType": "F"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "perms": "system",
+        "menuName": "系统管理",
+        "path": "/system"
+    }
+]

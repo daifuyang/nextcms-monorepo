@@ -53,12 +53,12 @@ export default [
           },
           {
             name: 'edit',
-            path: '/user/admin/edit',
+            path: '/user/admin/edit/:id',
             hideInMenu: true,
           },
           {
             name: 'delete',
-            path: '/user/admin/delete',
+            path: '/user/admin/delete/:id',
             hideInMenu: true,
           }
         ],

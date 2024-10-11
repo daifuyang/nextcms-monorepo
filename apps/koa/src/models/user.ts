@@ -2,19 +2,19 @@ import { now } from "@/lib/date";
 import prisma from "@/lib/prisma";
 import redis from "@/lib/redis";
 import { serializeData } from "@/lib/util";
-import { cmsUser, Prisma } from "@prisma/client";
+import { sysUser, Prisma } from "@prisma/client";
 
 const userIdKey = "user:id:";
 // 根据id获取用户
 export const getUserById = async (id: number, tx = prisma) => {
   const cache = await redis.get(`${userIdKey}${id}`);
-  let user: cmsUser | null = null;
+  let user: sysUser | null = null;
   if (cache) {
     user = JSON.parse(cache);
   }
 
   if (!user) {
-    user = await tx.cmsUser.findUnique({
+    user = await tx.sysUser.findUnique({
       where: {
         id,
         deletedAt: 0
@@ -30,8 +30,8 @@ export const getUserById = async (id: number, tx = prisma) => {
 };
 
 // 获取用户总数
-export const getUserCount = async (where: Prisma.cmsUserWhereInput = {}, tx = prisma) => {
-  return await tx.cmsUser.count({
+export const getUserCount = async (where: Prisma.sysUserWhereInput = {}, tx = prisma) => {
+  return await tx.sysUser.count({
     where: {
       ...where,
       deletedAt: 0
@@ -43,13 +43,13 @@ export const getUserCount = async (where: Prisma.cmsUserWhereInput = {}, tx = pr
 export const getUsersModel = async (
   page: number = 1,
   pageSize: number,
-  where: Prisma.cmsUserWhereInput = {},
+  where: Prisma.sysUserWhereInput = {},
   tx = prisma
 ) => {
   const args: {
     skip?: number;
     take?: number;
-    where?: Prisma.cmsUserWhereInput;
+    where?: Prisma.sysUserWhereInput;
   } =
     pageSize === 0
       ? {}
@@ -63,7 +63,7 @@ export const getUsersModel = async (
     deletedAt: 0
   };
 
-  const users = await tx.cmsUser.findMany({
+  const users = await tx.sysUser.findMany({
     ...args
   });
 
@@ -71,15 +71,15 @@ export const getUsersModel = async (
 };
 
 // 根据条件获取单个用户
-export const getUserModel = (where: Prisma.cmsUserWhereUniqueInput, tx = prisma) => {
-  return tx.cmsUser.findUnique({
+export const getUserModel = (where: Prisma.sysUserWhereUniqueInput, tx = prisma) => {
+  return tx.sysUser.findUnique({
     where
   });
 };
 
 // 创建用户
-export const createUserModel = async (data: Prisma.cmsUserCreateInput, tx = prisma) => {
-  const user = await tx.cmsUser.create({
+export const createUserModel = async (data: Prisma.sysUserCreateInput, tx = prisma) => {
+  const user = await tx.sysUser.create({
     data
   });
   if (user) {
@@ -89,8 +89,8 @@ export const createUserModel = async (data: Prisma.cmsUserCreateInput, tx = pris
 };
 
 // 更新用户
-export const updateUserModel = async (id: number, data: Prisma.cmsUserCreateInput, tx = prisma) => {
-  const user = await tx.cmsUser.update({
+export const updateUserModel = async (id: number, data: Prisma.sysUserCreateInput, tx = prisma) => {
+  const user = await tx.sysUser.update({
     where: {
       id
     },
@@ -104,7 +104,7 @@ export const updateUserModel = async (id: number, data: Prisma.cmsUserCreateInpu
 
 // 删除用户
 export const deleteUserModel = async (id: number, tx = prisma) => {
-  const user = await tx.cmsUser.update({
+  const user = await tx.sysUser.update({
     where: {
       id
     },

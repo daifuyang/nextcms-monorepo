@@ -10,13 +10,13 @@ const roleIdKey = "role:id:";
 export const getRoleList = async (
   page: number = 1,
   pageSize: number,
-  where: Prisma.cmsRoleWhereInput = {},
+  where: Prisma.sysRoleWhereInput = {},
   tx = prisma
 ) => {
   const args: {
     skip?: number;
     take?: number;
-    where?: Prisma.cmsRoleWhereInput;
+    where?: Prisma.sysRoleWhereInput;
   } =
     pageSize === 0
       ? {}
@@ -30,13 +30,13 @@ export const getRoleList = async (
     deletedAt: 0
   };
 
-  const roles = await tx.cmsRole.findMany({
+  const roles = await tx.sysRole.findMany({
     ...args
   });
 
   formatFields(roles, [
-    { fromField: "createdAt", toField: "createdTime" },
-    { fromField: "updatedAt", toField: "updatedTime" }
+    { fromField: "createdAt", toField: "createTime" },
+    { fromField: "updatedAt", toField: "updateTime" }
   ]);
 
   return roles;
@@ -49,7 +49,7 @@ export const getRoleById = async (id: number, tx = prisma) => {
     return JSON.parse(cache);
   }
 
-  const role = await tx.cmsRole.findUnique({
+  const role = await tx.sysRole.findUnique({
     where: {
       id,
       deletedAt: 0
@@ -64,7 +64,7 @@ export const getRoleById = async (id: number, tx = prisma) => {
 };
 
 export const getRoleByName = async (name: string, tx = prisma) => {
-  return await tx.cmsRole.findFirst({
+  return await tx.sysRole.findFirst({
     where: {
       name,
       deletedAt: 0
@@ -74,7 +74,7 @@ export const getRoleByName = async (name: string, tx = prisma) => {
 
 // 获取角色总数
 export const getRoleCount = async (tx = prisma) => {
-  return await tx.cmsRole.count({
+  return await tx.sysRole.count({
     where: {
       deletedAt: 0
     }
@@ -83,7 +83,7 @@ export const getRoleCount = async (tx = prisma) => {
 
 // 创建角色
 export const createRoleModel = async (data: any, tx = prisma) => {
-  const role = await tx.cmsRole.create({
+  const role = await tx.sysRole.create({
     data
   });
 
@@ -96,8 +96,8 @@ export const createRoleModel = async (data: any, tx = prisma) => {
 };
 
 // 更新角色
-export const updateRoleModel = async (id: number, data: Prisma.cmsRoleUpdateInput, tx = prisma) => {
-  const role = await tx.cmsRole.update({
+export const updateRoleModel = async (id: number, data: Prisma.sysRoleUpdateInput, tx = prisma) => {
+  const role = await tx.sysRole.update({
     where: {
       id
     },
@@ -113,7 +113,7 @@ export const updateRoleModel = async (id: number, data: Prisma.cmsRoleUpdateInpu
 
 // 删除角色
 export const deleteRoleModel = async (id: number, tx = prisma) => {
-  const role = await tx.cmsRole.update({
+  const role = await tx.sysRole.update({
     where: {
       id
     },

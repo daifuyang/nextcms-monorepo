@@ -1,9 +1,7 @@
 import fs from "fs";
 import path from "path";
-
-import prisma from "@/lib/prisma";
-import { now } from "./date";
-import { hashPassword } from "./util";
+import migrateUser from "../migrate/user";
+import migrateMenu from "../migrate/menu";
 
 export const install = async () => {
   const lockDir = path.resolve(process.cwd(), "install");
@@ -13,29 +11,8 @@ export const install = async () => {
     return;
   }
 
-  // 初始化
-  const existUser = await prisma.cmsUser.findFirst({
-    where: {
-      loginName: "admin"
-    }
-  });
-  if (!existUser) {
-    const password = await hashPassword("123456")
-
-    const user = await prisma.cmsUser.create({
-      data: {
-        loginName: "admin",
-        password,
-        nickname: "admin",
-        userType: 1,
-        status: 1,
-        createdAt: now(),
-        updatedAt: now()
-      }
-    });
-
-    console.log("create admin user", user);
-  }
+  migrateUser();
+  migrateMenu();
 
   // 创建安装锁
 

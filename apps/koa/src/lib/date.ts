@@ -24,7 +24,9 @@ export function formatFields(data: DataItem[], mappings: Mapping[]) {
   data.forEach((item: any) => {
     mappings.forEach((mapping) => {
       const { fromField, toField, format = "YYYY-MM-DD HH:mm:ss" } = mapping;
-      item[toField] = dayjs.unix(Number(item[fromField])).format(format);
+      if (item[fromField]) {
+        item[toField] = dayjs.unix(Number(item[fromField])).format(format); 
+      }
     });
   });
 }
