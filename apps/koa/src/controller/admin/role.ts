@@ -1,4 +1,4 @@
-import { now } from "@/lib/date";
+import { formatFields, now } from "@/lib/date";
 import { parseJson } from "@/lib/request";
 import response from "@/lib/response";
 import {
@@ -44,6 +44,12 @@ export async function getRoles(ctx: Context) {
   }
 
   const roleList = await getRoleList(Number(current), Number(pageSize), where);
+
+  formatFields(roleList, [
+    { fromField: "createdAt", toField: "createTime" },
+    { fromField: "updatedAt", toField: "updateTime" }
+  ]);
+
   let pagination = {};
   if (pageSize === "0") {
     pagination = roleList;
