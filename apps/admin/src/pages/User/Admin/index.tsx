@@ -1,17 +1,12 @@
 import React from 'react';
 import { ProTable, ProColumns, PageContainer, ActionType } from '@ant-design/pro-components';
 import { Admin } from '@/typings/admin'; // 使用上次的User类型
-import { Button, Divider, message, Popconfirm, Space, Typography } from 'antd';
+import { Button, Divider, message, Popconfirm, Space, Tag, Typography } from 'antd';
 import { deleteUser, getUsers } from '@/services/ant-design-pro/admins'; // 调用用户相关的服务接口
 import { PlusOutlined } from '@ant-design/icons';
 import SaveForm from './saveForm'; // 表单保存组件
 
-const statusKeyEnum: any = {
-  0: 'disabled',
-  1: 'enabled',
-};
-
-const statusValueEnum: any = {
+const valueEnum: any = {
   all: '',
   enabled: 1,
   disabled: 0,
@@ -39,18 +34,6 @@ const columns: ProColumns<Admin>[] = [
     title: '手机号',
     dataIndex: 'phone',
     width: 150,
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    valueType: 'select',
-    width: 80,
-    initialValue: 'all',
-    valueEnum: {
-      all: { text: '全部', status: 'Default' },
-      enabled: { text: '启用', status: 'Success' },
-      disabled: { text: '禁用', status: 'Error' },
-    },
   },
   {
     title: '登录IP',
@@ -86,6 +69,21 @@ const columns: ProColumns<Admin>[] = [
     },
   },
   {
+    title: '状态',
+    dataIndex: 'status',
+    valueType: 'select',
+    width: 80,
+    initialValue: 'all',
+    valueEnum: {
+      all: { text: '全部', status: 'Default' },
+      enabled: { text: '启用', status: 'Success' },
+      disabled: { text: '禁用', status: 'Error' },
+    },
+    renderText(text, record, index, action) {
+      return record.status === 1 ? <Tag color="success">启用</Tag> : <Tag color="default">禁用</Tag>;
+    },
+  },
+  {
     title: '操作',
     valueType: 'option',
     width: 200,
@@ -93,14 +91,14 @@ const columns: ProColumns<Admin>[] = [
       <Space split={<Divider type="vertical" />}>
         <SaveForm
           title="查看用户"
-          initialValues={{ ...record, status: statusValueEnum[record.status] }}
+          initialValues={{ ...record, status: valueEnum[record.status] }}
           readOnly
         >
           <Typography.Link>查看</Typography.Link>
         </SaveForm>
         <SaveForm
           title="编辑用户"
-          initialValues={{ ...record, status: statusValueEnum[record.status] }}
+          initialValues={{ ...record, status: valueEnum[record.status] }}
           onOk={() => {
             action?.reload();
           }}
@@ -137,17 +135,12 @@ const UserList: React.FC = () => {
         request={async (params) => {
           const { status = '' } = params;
           params.status = undefined;
-          if (statusValueEnum[status]) {
-            params.status = statusValueEnum[status];
+          if (valueEnum[status]) {
+            params.status = valueEnum[status];
           }
           const res: any = await getUsers(params); // 获取用户列表的接口
           if (res.code === 1) {
-            const data = res.data.data.map((item: any) => {
-              return {
-                ...item,
-                status: statusKeyEnum[item.status],
-              };
-            });
+            const data = res.data.data;
             return {
               data,
               page: res.data.page,
