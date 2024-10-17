@@ -13,28 +13,28 @@
                         "perms": "user:admin:list",
                         "menuName": "管理员列表",
                         "path": "/user/admin/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
                     },
                     {
                         "perms": "user:admin:add",
                         "menuName": "添加管理员",
                         "path": "/user/admin/add",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "user:admin:edit",
                         "menuName": "编辑管理员",
                         "path": "/user/admin/edit/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "user:admin:delete",
                         "menuName": "删除管理员",
                         "path": "/user/admin/delete/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     }
                 ]
@@ -48,28 +48,28 @@
                         "perms": "user:role:list",
                         "menuName": "角色列表",
                         "path": "/user/role/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
                     },
                     {
                         "perms": "user:role:add",
                         "menuName": "添加角色",
                         "path": "/user/role/add",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "user:role:edit",
                         "menuName": "编辑角色",
                         "path": "/user/role/edit/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "user:role:delete",
                         "menuName": "删除角色",
                         "path": "/user/role/delete/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     }
                 ]
@@ -90,28 +90,28 @@
                         "perms": "system:menu:list",
                         "menuName": "菜单列表",
                         "path": "/system/menu/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
                     },
                     {
                         "perms": "system:menu:add",
                         "menuName": "添加菜单",
                         "path": "/system/menu/add",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:menu:edit",
                         "menuName": "编辑菜单",
                         "path": "/system/menu/edit/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:menu:delete",
                         "menuName": "删除菜单",
                         "path": "/system/menu/delete/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     }
                 ]
@@ -125,28 +125,28 @@
                         "perms": "system:department:list",
                         "menuName": "部门列表",
                         "path": "/system/department/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
                     },
                     {
                         "perms": "system:department:add",
                         "menuName": "添加部门",
                         "path": "/system/department/add",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:department:edit",
                         "menuName": "编辑部门",
                         "path": "/system/department/edit/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:department:delete",
                         "menuName": "删除部门",
                         "path": "/system/department/delete/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     }
                 ]
@@ -160,28 +160,28 @@
                         "perms": "system:post:list",
                         "menuName": "岗位列表",
                         "path": "/system/post/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
                     },
                     {
                         "perms": "system:post:add",
                         "menuName": "添加岗位",
                         "path": "/system/post/add",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:post:edit",
                         "menuName": "编辑岗位",
                         "path": "/system/post/edit/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:post:delete",
                         "menuName": "删除岗位",
                         "path": "/system/post/delete/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     }
                 ]
@@ -195,28 +195,28 @@
                         "perms": "system:dict:list",
                         "menuName": "字典列表",
                         "path": "/system/dict/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
                     },
                     {
                         "perms": "system:dict:add",
                         "menuName": "添加字典",
                         "path": "/system/dict/add",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:dict:edit",
                         "menuName": "编辑字典",
                         "path": "/system/dict/edit/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     },
                     {
                         "perms": "system:dict:delete",
                         "menuName": "删除字典",
                         "path": "/system/dict/delete/:id",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "F"
                     }
                 ]
@@ -230,29 +230,8 @@
                         "perms": "system:log:list",
                         "menuName": "日志列表",
                         "path": "/system/log/list",
-                        "visible": false,
+                        "visible": 0,
                         "menuType": "C"
-                    },
-                    {
-                        "perms": "system:log:add",
-                        "menuName": "添加日志",
-                        "path": "/system/log/add",
-                        "visible": false,
-                        "menuType": "F"
-                    },
-                    {
-                        "perms": "system:log:edit",
-                        "menuName": "编辑日志",
-                        "path": "/system/log/edit/:id",
-                        "visible": false,
-                        "menuType": "F"
-                    },
-                    {
-                        "perms": "system:log:delete",
-                        "menuName": "删除日志",
-                        "path": "/system/log/delete/:id",
-                        "visible": false,
-                        "menuType": "F"
                     }
                 ]
             }

@@ -1,46 +1,52 @@
 import menus from "@/migrate/data/menus.json";
-import prisma from "@/lib/prisma";
 import { createMenu, getMenuByName, updateMenu } from "@/models/menu";
-import { Prisma, sysMenu } from "@prisma/client";
 import { now } from "@/lib/date";
+import { sysMenu } from "@prisma/client";
 
 interface MenuItem {
   perms: string;
   menuName: string;
   path: string;
-  visible?: boolean;
+  status?: number;
+  visible?: number;
   menuType?: string;
   children?: MenuItem[]; // 子菜单，递归定义
 }
 
 // 递归解析菜单项
-async function parseMenuItems(menuItems: MenuItem[], level: number = 0) {
-
+async function parseMenuItems(menuItems: MenuItem[], parentId: number = 0) {
   for (const item of menuItems) {
     // 打印菜单的名称和路径
     let menuType = item.menuType || "D";
     const menu = await getMenuByName(item.menuName);
+    let menuModel: sysMenu
     if (menu?.menuId) {
-      await updateMenu(menu.menuId, {
+      menuModel = await updateMenu(menu.menuId, {
         menuName: item.menuName,
-        parentId: level,
+        parentId,
+        menuType,
         path: item.path,
         perms: item.perms,
         icon: "",
-        order: level,
+        order: 0,
         updatedId: 1,
         updatedBy: "admin",
+        visible: item?.visible == 0 ? 0 : 1,
+        status: item?.status == 0 ? 0 : 1,
         createdAt: now(),
         updatedAt: now(),
       });
     } else {
-      await createMenu({
+      menuModel = await createMenu({
         menuName: item.menuName,
-        parentId: level,
+        parentId,
+        menuType,
         path: item.path,
         perms: item.perms,
         icon: "",
-        order: level,
+        order: 0,
+        visible: item?.visible == 0 ? 0 : 1,
+        status: item?.status == 0 ? 0 : 1,
         createdId: 1,
         createdBy: "admin",
         updatedId: 1,
@@ -50,7 +56,8 @@ async function parseMenuItems(menuItems: MenuItem[], level: number = 0) {
     }
     // 如果有子菜单，递归调用
     if (item.children && item.children.length > 0) {
-      parseMenuItems(item.children, level++);
+      const parentId = menuModel.menuId;
+      await parseMenuItems(item.children, parentId);
     } 
   };
 }

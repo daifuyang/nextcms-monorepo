@@ -9,6 +9,8 @@ import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/users';
 import React from 'react';
 import { App } from 'antd';
+import { convertToAntdMenu } from '@/utils/menu';
+import { getMenus } from './services/ant-design-pro/menus';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
 
@@ -21,6 +23,7 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.User | undefined>;
   loginPath?: string;
+  menus: any[];
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -34,6 +37,17 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+
+  const fetchMenus = async () => {
+    const res = await getMenus();
+    if (res.code === 1) {
+      return res.data as any[];
+    }
+    return [];
+  };
+
+  const menus = await fetchMenus();
+
   // 如果不是登录页面，执行
   const { location } = history;
   if (location.pathname !== loginPath) {
@@ -43,12 +57,14 @@ export async function getInitialState(): Promise<{
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
       loginPath,
+      menus
     };
   }
   return {
     fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
     loginPath,
+    menus
   };
 }
 
@@ -65,6 +81,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     waterMarkProps: {
       content: initialState?.currentUser?.name,
+    },
+    menu: {
+      params: initialState?.menus,
+      request:  async () => {
+        const menus = convertToAntdMenu(initialState?.menus as any);
+        return menus;
+      },
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
@@ -110,9 +133,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // if (initialState?.loading) return <PageLoading />;
       return (
         <App>
-          <div id='slave-root'>
-          {children}
-          </div>
+          <div id="slave-root">{children}</div>
           {isDev && (
             <SettingDrawer
               disableUrlParams
@@ -147,7 +168,7 @@ export const qiankun = {
     {
       name: 'portal',
       entry: '//localhost:8001',
-      container: '#slave-root'
-    }
-  ]
-}
+      container: '#slave-root',
+    },
+  ],
+};

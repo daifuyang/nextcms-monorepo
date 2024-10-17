@@ -4,6 +4,12 @@ import { Prisma } from "@prisma/client";
 
 const menuIdKey = "menu:id:";
 
+// 获取全部菜单列表
+export const getMenusModel = async (tx = prisma) => {
+  const menuList = await tx.sysMenu.findMany();
+  return menuList;
+}
+
 // 获取当个菜单
 export const getMenuByName = async (menuName: string, tx = prisma) => {
   const menu = await tx.sysMenu.findFirst({

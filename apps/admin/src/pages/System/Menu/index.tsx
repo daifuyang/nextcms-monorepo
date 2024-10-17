@@ -1,9 +1,10 @@
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Tag } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
+import { Button, Divider, Space, Tag } from 'antd';
 import { useRef } from 'react';
 import SaveForm from './saveForm';
+import { getMenus } from '@/services/ant-design-pro/menus';
 
 type MenuItem = {
   id: number;
@@ -19,8 +20,7 @@ type MenuItem = {
 const columns: ProColumns<MenuItem>[] = [
   {
     title: '菜单名称',
-    dataIndex: 'name',
-    copyable: true,
+    dataIndex: 'menuName',
     ellipsis: true,
     formItemProps: {
       rules: [
@@ -46,58 +46,63 @@ const columns: ProColumns<MenuItem>[] = [
   },
   {
     title: '权限标识',
-    dataIndex: 'permission',
+    dataIndex: 'perms',
     hideInSearch: true,
-    copyable: true,
   },
   {
     title: '组件路径',
     dataIndex: 'component',
     hideInSearch: true,
-    copyable: true,
     ellipsis: true,
   },
   {
     title: '状态',
     dataIndex: 'status',
-    valueType: 'select',
     valueEnum: {
-      active: { text: '启用', status: 'Success' },
-      inactive: { text: '禁用', status: 'Error' },
+      all: { text: '全部' },
+      enabled: { text: '启用', status: 'Success' },
+      disabled: { text: '禁用', status: 'Error' },
     },
+    render: (_, record) => {
+      return (
+        <Tag color={record.status ? 'green' : 'red'}>
+          {record.status ? '启用' : '禁用'}
+        </Tag>
+      );
+    }
   },
   {
     title: '创建时间',
-    dataIndex: 'created_at',
+    dataIndex: 'createdAt',
     valueType: 'dateTime',
     hideInSearch: true,
     sorter: true,
   },
   {
     title: '操作',
+    width: 200,
     valueType: 'option',
     key: 'option',
-    render: (text, record, _, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        编辑
-      </a>,
-      <a href={`/menu/${record.id}`} key="view">
-        查看
-      </a>,
-      <TableDropdown
-        key="actionGroup"
-        onSelect={() => action?.reload()}
-        menus={[
-          { key: 'copy', name: '复制' },
-          { key: 'delete', name: '删除' },
-        ]}
-      />,
-    ],
+    render: (text, record, _, action) => {
+      return (
+        <Space split={<Divider type="vertical" />}>
+          <a
+            key="editable"
+            onClick={() => {
+              action?.startEditable?.(record.id);
+            }}
+          >
+            编辑
+          </a>
+          <a href={`/menu/${record.id}`} key="view">
+            查看
+          </a>
+          <a style={{ color: '#ff4d4f' }} href={`/menu/${record.id}`} key="delete">
+            删除
+          </a>
+        </Space>
+      );
+    },
   },
 ];
 
@@ -110,12 +115,21 @@ export default () => {
       cardBordered
       request={async (params, sort, filter) => {
         // 替换成你自己的API请求
-        return [];
+        const res: any = await getMenus();
+        if (res.code === 1) {
+          return {
+            data: res.data,
+            success: true,
+          };
+        }
+        return {
+          success: false,
+        };
       }}
       editable={{
         type: 'multiple',
       }}
-      rowKey="id"
+      rowKey="menuId"
       search={{
         labelWidth: 'auto',
       }}

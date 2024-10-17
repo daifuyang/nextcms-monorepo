@@ -7,7 +7,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { App, Form } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 declare interface Props {
   title: string;
