@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import migrateUser from "../migrate/user";
 import migrateMenu from "../migrate/menu";
+import migrateRole from "@/migrate/role";
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -14,6 +15,7 @@ export const install = async () => {
   }
 
   migrateUser();
+  migrateRole();
   migrateMenu();
 
   // 创建安装锁
